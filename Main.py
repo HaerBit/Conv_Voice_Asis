@@ -79,6 +79,16 @@ def generate_response(messages):
     )
     return response.choices[0].message['content'].strip()
 
+def generate_response_history(messages):
+    global Number_of_tokens
+    response = openai.ChatCompletion.create(
+        model='gpt-4o-mini',  # Замените на вашу модель
+        messages=messages,
+        max_tokens=Number_of_tokens*3,
+        temperature=0.2
+    )
+    return response.choices[0].message['content'].strip()
+
 class Sub_Win(QMainWindow):
     def __init__(self, thread):
         super().__init__()
@@ -374,15 +384,15 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 'нужен только текст о том какой ассистент должен быть с тем, что должен помнить')
         sys_message  =f"'{chat_string}' - {text}"
         messages_with_system = [{"role": "system", "content": sys_message}]
-        response = generate_response(messages_with_system)
+        response = generate_response_history(messages_with_system)
         print(">>>",response, "<<<")
         messages_with_system = [{"role": "system", "content": (f"'{response}' - добавь текст из первого текста в этот '{History_Mem_CP}' адаптируя первый текст под стиль написании второго, но не меняя второй текст просто добавь из первого. пиши словно идет обращение к ассистенту. текст должен быть написано к ассистенту."
                                                                f"должно быть все написано обезличено без упоминания пользвателя и ассистента. выведи только в один текст.")}]
-        response = generate_response(messages_with_system)
+        response = generate_response_history(messages_with_system)
         print("<<<",response,">>>" )
         History_Mem_CP = response
         parameter_save_file['History_Mem_CP'] = History_Mem_CP
-        self.History_Sett_TE.setText()
+        self.History_Sett_TE.setText(History_Mem_CP)
         self.Save_OpenAI_settings()
 
     def timer_interval_set(self):
@@ -508,7 +518,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                     self.textBrowser.append(f"Bob: {response}")
 
                     self.history_edit_check += 1
-                    if self.history_edit_check >= 15:
+                    if self.history_edit_check == 15:
                         print(self.history_edit_check)
                         self.fifteens_times_history_gen()
                         self.history_edit_check = 0
