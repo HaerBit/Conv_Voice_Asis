@@ -1,9 +1,2 @@
-response_1 = ''
-response_2 = ''
-response ='123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890'
-p=(len(response) // 50)
-for i in range(1,(len(response) // 50)+1):
-    response_1 = response[:50*i]
-    response_2 = response[50*i+1:]
-    response=response_1 + '\n'+response_2
-print('1\n',response)
+interval_1 = 500000
+print((interval_1//1000)//60,(interval_1//1000)%60)

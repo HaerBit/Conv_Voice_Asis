@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>800</width>
     <height>480</height>
    </rect>
   </property>
@@ -639,6 +639,30 @@ color:white;
                        </widget>
                       </item>
                       <item>
+                       <widget class="QPushButton" name="Sub_Button">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>40</width>
+                          <height>35</height>
+                         </size>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">border-radius:17px;
+background-color:  rgba(40,40,40, 255);
+color:white;</string>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
                        <widget class="QFrame" name="frame_9">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -680,259 +704,6 @@ color:white;
                          <property name="bottomMargin">
                           <number>0</number>
                          </property>
-                         <item>
-                          <widget class="QPushButton" name="Sub_Button">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
-                           <property name="minimumSize">
-                            <size>
-                             <width>30</width>
-                             <height>30</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;ui version=&quot;4.0&quot;&gt;
- &lt;widget name=&quot;__qt_fake_top_level&quot;&gt;
-  &lt;widget class=&quot;QPushButton&quot; name=&quot;pushButton_2&quot;&gt;
-   &lt;property name=&quot;geometry&quot;&gt;
-    &lt;rect&gt;
-     &lt;x&gt;60&lt;/x&gt;
-     &lt;y&gt;2&lt;/y&gt;
-     &lt;width&gt;30&lt;/width&gt;
-     &lt;height&gt;30&lt;/height&gt;
-    &lt;/rect&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;sizePolicy&quot;&gt;
-    &lt;sizepolicy hsizetype=&quot;Fixed&quot; vsizetype=&quot;Fixed&quot;&gt;
-     &lt;horstretch&gt;0&lt;/horstretch&gt;
-     &lt;verstretch&gt;0&lt;/verstretch&gt;
-    &lt;/sizepolicy&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;minimumSize&quot;&gt;
-    &lt;size&gt;
-     &lt;width&gt;30&lt;/width&gt;
-     &lt;height&gt;30&lt;/height&gt;
-    &lt;/size&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;maximumSize&quot;&gt;
-    &lt;size&gt;
-     &lt;width&gt;30&lt;/width&gt;
-     &lt;height&gt;30&lt;/height&gt;
-    &lt;/size&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;palette&quot;&gt;
-    &lt;palette&gt;
-     &lt;active&gt;
-      &lt;colorrole role=&quot;WindowText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Button&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Text&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;ButtonText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Base&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Window&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-     &lt;/active&gt;
-     &lt;inactive&gt;
-      &lt;colorrole role=&quot;WindowText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Button&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Text&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;ButtonText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Base&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Window&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-     &lt;/inactive&gt;
-     &lt;disabled&gt;
-      &lt;colorrole role=&quot;WindowText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Button&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Text&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;ButtonText&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;255&lt;/red&gt;
-         &lt;green&gt;255&lt;/green&gt;
-         &lt;blue&gt;255&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Base&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-      &lt;colorrole role=&quot;Window&quot;&gt;
-       &lt;brush brushstyle=&quot;SolidPattern&quot;&gt;
-        &lt;color alpha=&quot;255&quot;&gt;
-         &lt;red&gt;40&lt;/red&gt;
-         &lt;green&gt;40&lt;/green&gt;
-         &lt;blue&gt;40&lt;/blue&gt;
-        &lt;/color&gt;
-       &lt;/brush&gt;
-      &lt;/colorrole&gt;
-     &lt;/disabled&gt;
-    &lt;/palette&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;font&quot;&gt;
-    &lt;font&gt;
-     &lt;family&gt;System&lt;/family&gt;
-     &lt;weight&gt;75&lt;/weight&gt;
-     &lt;bold&gt;true&lt;/bold&gt;
-    &lt;/font&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;styleSheet&quot;&gt;
-    &lt;string notr=&quot;true&quot;&gt;border-radius:15px;
-background-color:  rgba(40,40,40, 255);
-color:white;
-&lt;/string&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;text&quot;&gt;
-    &lt;string/&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;iconSize&quot;&gt;
-    &lt;size&gt;
-     &lt;width&gt;16&lt;/width&gt;
-     &lt;height&gt;16&lt;/height&gt;
-    &lt;/size&gt;
-   &lt;/property&gt;
-   &lt;property name=&quot;checkable&quot;&gt;
-    &lt;bool&gt;true&lt;/bool&gt;
-   &lt;/property&gt;
-  &lt;/widget&gt;
- &lt;/widget&gt;
- &lt;resources/&gt;
-&lt;/ui&gt;
-</string>
-                           </property>
-                           <property name="text">
-                            <string>...</string>
-                           </property>
-                          </widget>
-                         </item>
                          <item>
                           <widget class="QPushButton" name="deactivate_voice">
                            <property name="sizePolicy">
@@ -1336,9 +1107,9 @@ border:5px;</string>
                    <property name="geometry">
                     <rect>
                      <x>0</x>
-                     <y>0</y>
-                     <width>535</width>
-                     <height>750</height>
+                     <y>-72</y>
+                     <width>519</width>
+                     <height>738</height>
                     </rect>
                    </property>
                    <property name="styleSheet">
@@ -1400,18 +1171,18 @@ border:1px;</string>
                        <property name="spacing">
                         <number>10</number>
                        </property>
-                       <item row="1" column="2">
-                        <widget class="QPushButton" name="path_to_browser">
+                       <item row="1" column="1">
+                        <widget class="QLabel" name="label_3">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
                          <property name="minimumSize">
                           <size>
-                           <width>81</width>
-                           <height>35</height>
+                           <width>58</width>
+                           <height>0</height>
                           </size>
                          </property>
                          <property name="font">
@@ -1422,23 +1193,17 @@ border:1px;</string>
                            <bold>true</bold>
                           </font>
                          </property>
+                         <property name="autoFillBackground">
+                          <bool>false</bool>
+                         </property>
                          <property name="styleSheet">
-                          <string notr="true">QPushButton {
-    background: rgb(40, 40, 40);
-    color: white;
-    border-radius: 15px;
-}
-QPushButton:hover {
-    background: rgb(20, 20, 20);
-    color: white;
-    border-radius: 15px;
-}
-QPushButton:pressed {
-    background: rgb(10, 10, 10);
-}</string>
+                          <string notr="true">color:white;</string>
                          </property>
                          <property name="text">
-                          <string>Путь к...</string>
+                          <string>                   The default browser</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -1586,18 +1351,18 @@ border-radius:15px;</string>
                          </layout>
                         </widget>
                        </item>
-                       <item row="1" column="1">
-                        <widget class="QLabel" name="label_3">
+                       <item row="1" column="2">
+                        <widget class="QPushButton" name="path_to_browser">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
                          <property name="minimumSize">
                           <size>
-                           <width>58</width>
-                           <height>0</height>
+                           <width>81</width>
+                           <height>35</height>
                           </size>
                          </property>
                          <property name="font">
@@ -1608,17 +1373,23 @@ border-radius:15px;</string>
                            <bold>true</bold>
                           </font>
                          </property>
-                         <property name="autoFillBackground">
-                          <bool>false</bool>
-                         </property>
                          <property name="styleSheet">
-                          <string notr="true">color:white;</string>
+                          <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+}</string>
                          </property>
                          <property name="text">
-                          <string>Браузер по умолчанию</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignCenter</set>
+                          <string>Path to...</string>
                          </property>
                         </widget>
                        </item>
@@ -1764,7 +1535,7 @@ font-size:12px;
                          </property>
                          <property name="minimumSize">
                           <size>
-                           <width>75</width>
+                           <width>55</width>
                            <height>35</height>
                           </size>
                          </property>
@@ -1799,7 +1570,7 @@ QPushButton:pressed {
                        <item row="11" column="1">
                         <widget class="QLineEdit" name="Num_tokens_LineE">
                          <property name="sizePolicy">
-                          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                            <horstretch>0</horstretch>
                            <verstretch>0</verstretch>
                           </sizepolicy>
@@ -2531,7 +2302,7 @@ QToolButton :pressed {
                          </property>
                          <property name="minimumSize">
                           <size>
-                           <width>203</width>
+                           <width>207</width>
                            <height>35</height>
                           </size>
                          </property>

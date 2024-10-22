@@ -20,11 +20,10 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from PyQt5.QtWidgets import QWidget
+from sympy.codegen.cfunctions import expm1
 from vosk import Model, KaldiRecognizer
 from PyQt5 import QtWidgets, QtCore, uic,QtGui
 from PyQt5.QtWidgets import (QFileDialog)
-
-from test import size_font
 
 # Загрузка UI файла
 Ui_Form, _ = uic.loadUiType('VoiceConvAsis_U_3I.ui')
@@ -105,13 +104,11 @@ class Sub_Win(QMainWindow):
             self.move(int(screen_size.width()/2-250),int(screen_size.height())-150)
             self.screen_heights = {720:0, 1080:4, 1440:8, 2160:12, 2880:16, 4320:20}
 
-            self.label.setStyleSheet (''
-                                         'color:rgb(220, 220, 220);'
-                                         'background:rgba(40,40,40,0);'
-                                         'padding-left:10px;'
-                                         'font-family: "TimesNewRoman";'
-                                         f'font-size:{20+self.screen_heights[int(screen_size.height())]}px;'
-                                         '')
+            self.label.setStyleSheet('color:rgb(220, 220, 220);'
+                                     'background:rgba(40,40,40,0);'
+                                     'padding-left:10px;'
+                                     'font-family: "TimesNewRoman";'
+                                     f'font-size:{20+self.screen_heights[int(screen_size.height())]}px;')
 
             self.thread.send_param.connect(self.update_label)
         except Exception as e:
@@ -185,12 +182,12 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
         self.icon_normal = QtGui.QIcon('icon/img_11728.png')
         self.icon_active = QtGui.QIcon('icon/img_11728_white.png')
-        self.icon_voice_normal = QtGui.QIcon('icon/sound_asis_on.png')
-        self.icon_voice_active = QtGui.QIcon('icon/sound_asis_off.png')
+        self.icon_voice_active = QtGui.QIcon('icon/sound_asis_on.png')
+        self.icon_voice_normal = QtGui.QIcon('icon/sound_asis_off.png')
 
         self.pushButton_2.setIcon(self.icon_normal)
         self.deactivate_voice.setIcon(self.icon_voice_normal)
-        self.check_activate_sint_voice = True
+        self.check_activate_sint_voice = False
 
         self.pushButton_4.clicked.connect(self.handle_input)
         self.lineEdit_2.returnPressed.connect(self.input_Massage)
@@ -201,8 +198,8 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.file_path = parameter_save_file['Browser_directory']
         self.save_file = self.file_path
         self.ChatHistory = parameter_save_file["Chat_history"]
-        print('> файл ', self.save_file, type(self.save_file), "загружен...")
-        print(f"> История чата загружена. Файл с данными {self.ChatHistory}...")
+        print('> file ', self.save_file, type(self.save_file), "uploaded...")
+        print(f"> The chat history has been uploaded. The data file {self.ChatHistory}...")
 
         if ChatMemory:
             self.memory = ChatMemory()
@@ -210,6 +207,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         else:
             self.memory = ChatMemory()
 
+        # значения переменных - values of variables
         self.temp = None
         self.y_t_temp = None
         self.tab_temp = 0
@@ -222,8 +220,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
 
 
-        #озвучка текста
-
+        # озвучка текста -
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         torch.set_num_threads(8)
         self.local_file = 'model.pt'
@@ -243,6 +240,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         #---------
         self.text_signal.connect(self.updateTextBrowser)
 
+        # кнопки - buttons
         self.button_options.clicked.connect(lambda : self.Slide_Frame_Options())
         self.toolButton_3.clicked.connect(lambda: self.Slide_Frame_Main())
         self.Personality_Sett_TE_Button.clicked.connect(lambda : self.Anim_Slide_Frame_Pers_TE())
@@ -255,7 +253,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.aidar_tButton.clicked.connect(lambda:self.Change_Voice_Speaker('aidar'))
         self.eugene_tButton.clicked.connect(lambda:self.Change_Voice_Speaker('eugene'))
 
-
+        # анимация и значения размера контейнеров - animation and container size values
         self.Side_Menu_Num = 0
         self.Side_Menu_Num_2 = 0
         self.ASF_Pers_TE = 0
@@ -275,28 +273,28 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.load_save_file()
             self.initialized_loadfile = True
 
-        # таймер
+        # таймер - timer
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.execute_command)
         self.timer_interval_set()
         self.timer.start(self.interval)
 
+        # "Субтитры" для бота - subtitles for bot
         self.thread = None
         self.Sub_Button.clicked.connect(self.on_btn)
 
-    def Send_Message_Sub(self,response):
-        response_1 = ''
-        response_2 = ''
-        for i in range(1, (len(response) // 50) + 1):
-            response_1 = response[:50 * i]
-            response_2 = response[50 * i + 1:]
-            response = response_1 + '\n' + response_2
+        self.Sub_Button_icon_on = QtGui.QIcon('icon/subtitles_on.png')
+        self.Sub_Button_icon_off = QtGui.QIcon('icon/subtitles_off.png')
+        self.Sub_Button.setIcon(self.Sub_Button_icon_off)
+        self.Sub_Button.setIconSize(QtCore.QSize(24, 24))
 
+    def Send_Message_Sub(self,response):
         if self.thread:
             self.thread.send_param.emit(response)
 
     def on_btn(self):
         if self.thread is None:
+            self.Sub_Button.setIcon(self.Sub_Button_icon_on)
             self.thread = ThreadWindow()
             self.thread.threadSignal.connect(self.on_threadSignal)
             self.thread.start()
@@ -304,10 +302,13 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.SubWin = Sub_Win(self.thread)
             self.SubWin.show()
         else:
+            self.Sub_Button.setIcon(self.Sub_Button_icon_off)
             self.thread.stop()
             self.thread.quit()
             self.thread.wait()
             self.thread = None
+
+            self.SubWin.close()
 
     def on_threadSignal(self, value):
         print(f"Received from thread: {value}")
@@ -367,13 +368,13 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def off_or_on_sint_voice(self,checked):
         if checked:
-            print('> voice is turned off')
-            self.deactivate_voice.setIcon(self.icon_voice_active)
-            self.check_activate_sint_voice = False
-        else:
             print('> voice is turned on')
-            self.deactivate_voice.setIcon(self.icon_voice_normal)
+            self.deactivate_voice.setIcon(self.icon_voice_active)
             self.check_activate_sint_voice=True
+        else:
+            print('> voice is turned off')
+            self.deactivate_voice.setIcon(self.icon_voice_normal)
+            self.check_activate_sint_voice = False
 
     def fifteens_times_history_gen(self):
         global History_Mem_CP
@@ -397,7 +398,8 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def timer_interval_set(self):
         self.interval = random.randint(Min_STime_Question*1000, Max_STime_Question*1000)
-        print(self.interval//1000,'сек. осталось до вопроса')
+
+        print((self.interval//1000)//60,'min.',(self.interval//1000)%60,'sec. left before the question (',self.interval//1000,') sec')
 
     def execute_command(self):
         print("случайный вопрос!")
@@ -417,6 +419,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 self.fifteens_times_history_gen()
                 self.history_edit_check = 0
             print(response)
+            self.Send_Message_Sub(response)
             if self.check_activate_sint_voice:
                 self.voice_massage_ask(response)
         except Exception as error:
@@ -432,9 +435,9 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def voice_adoptation(self):
         self.synthesize_and_play('о')
-        print('> Прогрузка синтеза голоса, тест:', 1)
+        print('> voice synthesis loading, test:', 1)
         self.synthesize_and_play('завершён...')
-        print('> Прогрузка синтеза голоса завершена...')
+        print('> voice synthesis loading is complete...')
 
     def load_save_file(self): # Initialization/Инициализация
 
@@ -462,12 +465,12 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
         """self.voice_adoptation()"""
         self.click_browser_1.setText(self.file_path)
-        print('> Загрузка API ключа...')
+        print('> loading API key...')
         if OpenAi_ApiKey:
             self.settings_apikey.setText(OpenAi_ApiKey)
-            print('> Загрузка API ключа завершена')
+            print('> loading API key successful')
         else:
-            self.textBrowser.setText('Загрузка API-ключа не удалась.')
+            self.textBrowser.setText('loading API key unsuccessful')
 
     def Save_Ttaaq(self): # save Timer
         global Min_STime_Question,Max_STime_Question
@@ -522,7 +525,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                         print(self.history_edit_check)
                         self.fifteens_times_history_gen()
                         self.history_edit_check = 0
-
+                    print(response)
                     self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
                 except Exception as error:
                     print(f'error - {error}')
@@ -570,7 +573,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def delete_save_browser_default(self):
         self.click_browser_1.setText('None')
         self.file_path = None
-        print('путь к файлу .exe браузера', self.file_path)
+        print('the path to the browsers .exe file', self.file_path)
         self.default_browser_state = 0
 
 
@@ -712,7 +715,6 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation22.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation22.finished.connect(self.on_animation_finished)
             self.animation22.start()
-
             self.animation41 = QtCore.QPropertyAnimation(self.frame_4, b"minimumWidth")
             self.animation41.setDuration(self.duration_anim_sideMenu)
             self.animation41.setStartValue(0)
@@ -762,7 +764,6 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation41.start()
 
 
-
     def Slide_Frame_Main(self):
         if self.animation_block:
             return
@@ -793,12 +794,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.animation_block = False
 
     def voice_massage_ask(self, massage):
-        print(massage)
 
         self.synthesize_and_play(massage,Speaker_Voice)
 
 
-    def synthesize_and_play(self,text, speaker='baya', sample_rate=48000):
+    def synthesize_and_play(self,text, speaker='baya', sample_rate=24000):
 
         text = text+'....ъъъъ'
         audio_path = self.model.save_wav(text=text, speaker=speaker, sample_rate=sample_rate)
@@ -842,6 +842,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             'девяносто пять': 47, 'девяносто шесть': 48, 'девяносто семь': 48, 'девяносто восемь': 49,
             'девяносто девять': 49, 'сто': 50
         }
+        num = list(range(101))
         list_o_t = o_t.split()+['']+['']
 
         try:
@@ -854,6 +855,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 else:
                     volume = conv_num[list_o_t[i]]
                     print('volume', volume)
+            elif int(list_o_t[i]) in num:
+                print(list_o_t[i])
+                volume = int(list_o_t[i])//2
+                print('volume', volume)
         except Exception as e:
             print(f'123{e}')
         print(volume)
@@ -959,7 +964,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             final_text = "start" + " " + " " + site
             os.system(final_text)
 
-    def func_browser_use(self):  # Браузер и его функции
+    def func_browser_use(self):  # открытие Браузера
         print('func_browser_use - октрытие браузера')
         o_t = self.out_text
         data = ['включи','открой']
