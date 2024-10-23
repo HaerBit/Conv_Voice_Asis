@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>608</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -213,7 +213,7 @@ border-radius: 15px;
                   <property name="minimumSize">
                    <size>
                     <width>94</width>
-                    <height>66</height>
+                    <height>99</height>
                    </size>
                   </property>
                   <property name="frameShape">
@@ -276,6 +276,12 @@ border_radius: 5px;</string>
                    </item>
                    <item row="1" column="0">
                     <widget class="QToolButton" name="button_options">
+                     <property name="minimumSize">
+                      <size>
+                       <width>28</width>
+                       <height>28</height>
+                      </size>
+                     </property>
                      <property name="text">
                       <string>...</string>
                      </property>
@@ -291,35 +297,75 @@ border_radius: 5px;</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="1">
+                   <item row="0" column="2">
                     <widget class="QLabel" name="label">
                      <property name="font">
                       <font>
-                       <weight>75</weight>
-                       <bold>true</bold>
+                       <family>System</family>
+                       <pointsize>-1</pointsize>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: white;</string>
+                      <string notr="true">color:white;
+font-family:&quot;System&quot;;
+font-size:12px;</string>
                      </property>
                      <property name="text">
                       <string>Главная</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="1">
+                   <item row="1" column="2">
                     <widget class="QLabel" name="label_2">
                      <property name="font">
                       <font>
-                       <weight>75</weight>
-                       <bold>true</bold>
+                       <family>System</family>
+                       <pointsize>-1</pointsize>
                       </font>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">color: white;</string>
+                      <string notr="true">color:white;
+font-family:&quot;System&quot;;
+font-size:12px;</string>
                      </property>
                      <property name="text">
                       <string>Настройки</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QToolButton" name="func_edit_Button">
+                     <property name="minimumSize">
+                      <size>
+                       <width>28</width>
+                       <height>28</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color:white;
+font-family:&quot;TimesNewRoman&quot; Bold;
+font-size:24px;</string>
+                     </property>
+                     <property name="text">
+                      <string>F</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QLabel" name="func_edit_Label">
+                     <property name="font">
+                      <font>
+                       <family>System</family>
+                       <pointsize>-1</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color:white;
+font-family:&quot;System&quot;;
+font-size:12px;</string>
+                     </property>
+                     <property name="text">
+                      <string>Функции</string>
                      </property>
                     </widget>
                    </item>
@@ -390,13 +436,13 @@ border_radius: 5px;</string>
                </property>
                <property name="minimumSize">
                 <size>
-                 <width>480</width>
+                 <width>0</width>
                  <height>480</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>800</width>
+                 <width>0</width>
                  <height>640</height>
                 </size>
                </property>
@@ -1023,6 +1069,527 @@ background-color: rgb(10,10,10);
               </widget>
              </item>
              <item>
+              <widget class="QFrame" name="function_edit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>800</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Plain</enum>
+               </property>
+               <property name="lineWidth">
+                <number>0</number>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QScrollArea" name="scrollArea_2">
+                  <property name="styleSheet">
+                   <string notr="true">background: rgb(40,40,40);border-radius: 15px;
+border:5px;</string>
+                  </property>
+                  <property name="widgetResizable">
+                   <bool>true</bool>
+                  </property>
+                  <widget class="QWidget" name="scrollAreaWidgetContents">
+                   <property name="geometry">
+                    <rect>
+                     <x>0</x>
+                     <y>0</y>
+                     <width>720</width>
+                     <height>608</height>
+                    </rect>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <property name="spacing">
+                     <number>10</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>10</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>10</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>10</number>
+                    </property>
+                    <item alignment="Qt::AlignTop">
+                     <widget class="QFrame" name="frame_10">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>205</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QGridLayout" name="gridLayout_7">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>10</number>
+                       </property>
+                       <item row="3" column="0" colspan="2" alignment="Qt::AlignTop">
+                        <widget class="QFrame" name="frame_11">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>160</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>1231241</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">border-radius:15px;</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::NoFrame</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Plain</enum>
+                         </property>
+                         <layout class="QHBoxLayout" name="horizontalLayout_14">
+                          <property name="spacing">
+                           <number>10</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QFrame" name="frame_14">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>138</width>
+                              <height>0</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>300</width>
+                              <height>16777215</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">background: rgb(0,0,0)</string>
+                            </property>
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <layout class="QGridLayout" name="gridLayout_8">
+                             <property name="leftMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="spacing">
+                              <number>10</number>
+                             </property>
+                             <item row="3" column="0">
+                              <widget class="QPushButton" name="Clear_list_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>75</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background: rgb(40,40,40);
+ color: white;
+ font-family:&quot;System&quot;;
+font-size:12px</string>
+                               </property>
+                               <property name="text">
+                                <string>Clear list</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="1" column="0" colspan="3">
+                              <widget class="QLineEdit" name="Name_sites_LE">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>0</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>16777215</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background: rgb(40,40,40);
+ color: white;
+ font-family:&quot;System&quot;;
+font-size:12px;
+padding: 0 0 0 10</string>
+                               </property>
+                               <property name="text">
+                                <string/>
+                               </property>
+                               <property name="placeholderText">
+                                <string>Name</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="2" column="0" colspan="3">
+                              <widget class="QLineEdit" name="Adress_sites_LE">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>10</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>16777215</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background: rgb(40,40,40);
+ color: white;
+ font-family:&quot;System&quot;;
+font-size:12px;
+padding: 0 0 0 10</string>
+                               </property>
+                               <property name="text">
+                                <string/>
+                               </property>
+                               <property name="placeholderText">
+                                <string>Adress</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="3" column="2">
+                              <widget class="QPushButton" name="Save_sites_info_PButton">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>75</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>16777215</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background: rgb(40,40,40);
+ color: white;
+ font-family:&quot;System&quot;;
+font-size:12px</string>
+                               </property>
+                               <property name="text">
+                                <string>Save</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QFrame" name="frame_15">
+                            <property name="styleSheet">
+                             <string notr="true">background: rgb(0,0,0)</string>
+                            </property>
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <layout class="QVBoxLayout" name="verticalLayout_9">
+                             <property name="spacing">
+                              <number>0</number>
+                             </property>
+                             <property name="leftMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>10</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>10</number>
+                             </property>
+                             <item>
+                              <widget class="QTextEdit" name="Browser_saved_sites">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="font">
+                                <font>
+                                 <family>System</family>
+                                 <pointsize>10</pointsize>
+                                 <weight>75</weight>
+                                 <bold>true</bold>
+                                </font>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">background: rgb(40,40,40);
+color:white; 
+padding:10;
+font-family:&quot;System&quot;;
+font-size:12</string>
+                               </property>
+                               <property name="frameShape">
+                                <enum>QFrame::NoFrame</enum>
+                               </property>
+                               <property name="readOnly">
+                                <bool>true</bool>
+                               </property>
+                               <property name="html">
+                                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'System'; font-size:10pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ютуб | youtube.com&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                               </property>
+                               <property name="placeholderText">
+                                <string>Empty list</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item row="0" column="0" colspan="2" alignment="Qt::AlignTop">
+                        <widget class="QFrame" name="frame_13">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>35</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background: rgb(40,40,40);border-radius:0</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::NoFrame</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Raised</enum>
+                         </property>
+                         <layout class="QHBoxLayout" name="horizontalLayout_13">
+                          <property name="spacing">
+                           <number>0</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="label_12">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>50</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">background: rgb(0,0,0);
+border-radius:15px;
+color: white;
+font-family:System;
+font-size:12px;
+padding: 0 0 0 0</string>
+                            </property>
+                            <property name="text">
+                             <string>Окрытие сайтов</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
+                            </property>
+                            <property name="margin">
+                             <number>0</number>
+                            </property>
+                            <property name="indent">
+                             <number>0</number>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="frame_12">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
               <widget class="QFrame" name="frame_4">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1107,7 +1674,7 @@ border:5px;</string>
                    <property name="geometry">
                     <rect>
                      <x>0</x>
-                     <y>-72</y>
+                     <y>0</y>
                      <width>519</width>
                      <height>738</height>
                     </rect>

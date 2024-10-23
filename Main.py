@@ -51,6 +51,7 @@ History_Mem_CP = parameter_save_file['History_Mem_CP']
 Personality_CP = parameter_save_file['Personality_CP']
 
 Speaker_Voice = parameter_save_file['Speaker_Voice']
+Saved_Sites = parameter_save_file['Saved_Sites']
 
 class ChatMemory:
     def __init__(self, max_messages=15):
@@ -195,6 +196,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.SaveApiSet_But.clicked.connect(self.Save_OpenAI_settings)
         self.Question_Interval_saveButton.clicked.connect(self.Save_Ttaaq)
 
+        # func - sites
+        self.Save_sites_info_PButton.clicked.connect(self.Save_Sites_Adress_Name)
+        self.Clear_list_Button.clicked.connect(self.ClearList_Sites)
+
         self.file_path = parameter_save_file['Browser_directory']
         self.save_file = self.file_path
         self.ChatHistory = parameter_save_file["Chat_history"]
@@ -243,6 +248,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         # кнопки - buttons
         self.button_options.clicked.connect(lambda : self.Slide_Frame_Options())
         self.toolButton_3.clicked.connect(lambda: self.Slide_Frame_Main())
+        self.func_edit_Button.clicked.connect(lambda : self.Slide_Frame_Func_edit())
         self.Personality_Sett_TE_Button.clicked.connect(lambda : self.Anim_Slide_Frame_Pers_TE())
         self.History_Sett_TE_Button.clicked.connect(lambda : self.Anim_Slide_Frame_History_TE())
         self.Manner_Sett_TE_Button.clicked.connect(lambda: self.Anim_Slide_Frame_Manner_TE())
@@ -254,8 +260,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.eugene_tButton.clicked.connect(lambda:self.Change_Voice_Speaker('eugene'))
 
         # анимация и значения размера контейнеров - animation and container size values
-        self.Side_Menu_Num = 0
-        self.Side_Menu_Num_2 = 0
+        self.Side_Menu_Num = 0 # окно настроек
+        self.Side_Menu_Num_2 = 0 # боковое меню
+        self.Side_Menu_Num_FE = 0 # окно функций
+        self.Side_Menu_Num_Consol = 1
         self.ASF_Pers_TE = 0
         self.ASF_History_TE = 0
         self.ASF_Manner_TE = 0
@@ -264,7 +272,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.frame_6_min_width = 480
         self.frame_6_main_width = 720
         self.animation_block = 0
-        self.duration_anim_sideMenu = 250
+        self.duration_anim_sideMenu = 200
 
         self.path_to_browser.clicked.connect(self.open_browser_file)
         self.browser_close_1.clicked.connect(self.delete_save_browser_default)
@@ -287,6 +295,48 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Sub_Button_icon_off = QtGui.QIcon('icon/subtitles_off.png')
         self.Sub_Button.setIcon(self.Sub_Button_icon_off)
         self.Sub_Button.setIconSize(QtCore.QSize(24, 24))
+
+    def ClearList_Sites(self):
+        global Saved_Sites,parameter_save_file
+        self.Browser_saved_sites.clear()
+        Saved_Sites =[]
+        parameter_save_file['Saved_Sites'] = []
+        self.save_savefile()
+
+
+    def Save_Sites_Adress_Name(self): # сохранение имени и адреса страницы или сайта
+        global Saved_Sites,parameter_save_file
+
+        Name_site = self.Name_sites_LE.text()
+        Adress_sites = self.Adress_sites_LE.text()
+        Name_and_adress = {Name_site:Adress_sites}
+
+        if Name_and_adress not in Saved_Sites: # отсутсвие допуска уже введенных переменных
+            Saved_Sites.append(Name_and_adress)
+            parameter_save_file['Saved_Sites'] = Saved_Sites
+            self.save_savefile()
+
+        self.Browser_saved_sites.clear()
+        self.Name_sites_LE.clear()
+        self.Adress_sites_LE.clear()
+
+        self.Conv_sites_to_text()
+        self.Browser_saved_sites.setText(self.saved_sites_text_full)
+
+    def Conv_sites_to_text(self):
+        self.conv_name_sites = {}  #
+        saved_sites_text = []
+
+        for string in Saved_Sites:
+            for i, a in string.items():
+                if i and a:
+                    if not a.startswith('https://'):
+                        a = 'https://' + a
+                    self.conv_name_sites[i] = a
+                    saved_sites_text.append(f'{i}  |  {a}')
+
+        print(self.conv_name_sites)
+        self.saved_sites_text_full = '\n'.join(saved_sites_text)
 
     def Send_Message_Sub(self,response):
         if self.thread:
@@ -399,10 +449,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def timer_interval_set(self):
         self.interval = random.randint(Min_STime_Question*1000, Max_STime_Question*1000)
 
-        print((self.interval//1000)//60,'min.',(self.interval//1000)%60,'sec. left before the question (',self.interval//1000,') sec')
+        print(f'{self.interval//1000} sec. ({(self.interval//1000)//60} min. {(self.interval//1000)%60} sec.)  left before the question')
 
     def execute_command(self):
-        print("случайный вопрос!")
+        print("> Random question!")
 
         user_input = ("*задай краткий любой глупый вопрос или скажи что-нибуль утвердительнон НО не вопрос. связанный с историей чата и его темой, как мой друг,"
                       "обязательно не повторяйся в вопросах. совмещай утверждения или говори только про одно. пиши краткр в одно предложение максимум! если до тебе не ответили, то веди себя агрессивно и молчи в ответ*")
@@ -462,6 +512,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         print(f'> system prompts - {self.system_message}')
 
         self.Change_Voice_Speaker(Speaker_Voice)
+
+
+        self.Conv_sites_to_text()
+
+        self.Browser_saved_sites.setText(self.saved_sites_text_full)
 
         """self.voice_adoptation()"""
         self.click_browser_1.setText(self.file_path)
@@ -694,20 +749,79 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation9.finished.connect(self.on_animation_finished)
             self.animation9.start()
 
+    def Slide_Frame_Func_edit(self):
+        if self.animation_block:
+            return
+        self.animation_block = True
+
+        if self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 1 and self.Side_Menu_Num_FE ==0:
+            self.Side_Menu_Num_Consol =0
+            self.Side_Menu_Num_FE = 1
+
+            self.animation_1 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
+            self.animation_1.setDuration(self.duration_anim_sideMenu)
+            self.animation_1.setStartValue(self.frame_6_max_width)
+            self.animation_1.setEndValue(0)
+            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_1.finished.connect(self.on_animation_finished)
+            self.animation_1.start()
+
+            self.animation_3 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
+            self.animation_3.setDuration(self.duration_anim_sideMenu)
+            self.animation_3.setStartValue(0)
+            self.animation_3.setEndValue(self.frame_6_max_width)
+            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_3.finished.connect(self.on_animation_finished)
+            self.animation_3.start()
+        elif self.Side_Menu_Num == 1 and self.Side_Menu_Num_Consol == 0 and self.Side_Menu_Num_FE ==0:
+            self.Side_Menu_Num = 0
+            self.Side_Menu_Num_FE = 1
+
+            self.animation_1 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
+            self.animation_1.setDuration(self.duration_anim_sideMenu)
+            self.animation_1.setStartValue(self.frame_6_max_width)
+            self.animation_1.setEndValue(0)
+            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_1.finished.connect(self.on_animation_finished)
+            self.animation_1.start()
+
+            self.animation_3 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
+            self.animation_3.setDuration(self.duration_anim_sideMenu)
+            self.animation_3.setStartValue(0)
+            self.animation_3.setEndValue(self.frame_6_max_width)
+            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_3.finished.connect(self.on_animation_finished)
+            self.animation_3.start()
+
+        elif self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 0 and self.Side_Menu_Num_FE == 1:
+            self.Side_Menu_Num_Consol = 1
+            self.Side_Menu_Num_FE = 0
+
+            self.animation_1 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
+            self.animation_1.setDuration(self.duration_anim_sideMenu)
+            self.animation_1.setStartValue(self.frame_6_max_width)
+            self.animation_1.setEndValue(0)
+            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_1.finished.connect(self.on_animation_finished)
+            self.animation_1.start()
+
+            self.animation_3 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
+            self.animation_3.setDuration(self.duration_anim_sideMenu)
+            self.animation_3.setStartValue(0)
+            self.animation_3.setEndValue(self.frame_6_max_width)
+            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation_3.finished.connect(self.on_animation_finished)
+            self.animation_3.start()
+
     def Slide_Frame_Options(self):
         if self.animation_block:
             return
         self.animation_block = True
 
-        if self.Side_Menu_Num == 0:
+        if self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 1 and self.Side_Menu_Num_FE == 0:
             self.Side_Menu_Num = 1
-            self.animation2 = QtCore.QPropertyAnimation(self.Consol, b"minimumWidth")
-            self.animation2.setDuration(self.duration_anim_sideMenu)
-            self.animation2.setStartValue(self.frame_6_min_width)
-            self.animation2.setEndValue(0)
-            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation2.finished.connect(self.on_animation_finished)
-            self.animation2.start()
+            self.Side_Menu_Num_Consol =0
+
             self.animation22 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
             self.animation22.setDuration(self.duration_anim_sideMenu)
             self.animation22.setStartValue(self.frame_6_max_width)
@@ -715,13 +829,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation22.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation22.finished.connect(self.on_animation_finished)
             self.animation22.start()
-            self.animation41 = QtCore.QPropertyAnimation(self.frame_4, b"minimumWidth")
-            self.animation41.setDuration(self.duration_anim_sideMenu)
-            self.animation41.setStartValue(0)
-            self.animation41.setEndValue(self.frame_6_min_width)
-            self.animation41.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation41.finished.connect(self.on_animation_finished)
-            self.animation41.start()
+
             self.animation42 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
             self.animation42.setDuration(self.duration_anim_sideMenu)
             self.animation42.setStartValue(0)
@@ -731,8 +839,29 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation42.start()
 
             self.Set_Default_Settings()
-        else:
+        elif self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol ==0 and self.Side_Menu_Num_FE ==1:
+            self.Side_Menu_Num = 1
+            self.Side_Menu_Num_FE = 0
+
+            self.animation2 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
+            self.animation2.setDuration(self.duration_anim_sideMenu)
+            self.animation2.setStartValue(self.frame_6_max_width)
+            self.animation2.setEndValue(0)
+            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation2.finished.connect(self.on_animation_finished)
+            self.animation2.start()
+
+            self.animation41 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
+            self.animation41.setDuration(self.duration_anim_sideMenu)
+            self.animation41.setStartValue(0)
+            self.animation41.setEndValue(self.frame_6_max_width)
+            self.animation41.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation41.finished.connect(self.on_animation_finished)
+            self.animation41.start()
+        elif self.Side_Menu_Num == 1 and self.Side_Menu_Num_Consol ==0 and self.Side_Menu_Num_FE ==0:
             self.Side_Menu_Num = 0
+            self.Side_Menu_Num_Consol = 1
+
             self.animation2 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
             self.animation2.setDuration(self.duration_anim_sideMenu)
             self.animation2.setStartValue(self.frame_6_max_width)
@@ -740,21 +869,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation2.finished.connect(self.on_animation_finished)
             self.animation2.start()
-            self.animation21 = QtCore.QPropertyAnimation(self.frame_4, b"minimumWidth")
-            self.animation21.setDuration(self.duration_anim_sideMenu)
-            self.animation21.setStartValue(self.frame_6_min_width)
-            self.animation21.setEndValue(0)
-            self.animation21.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation21.finished.connect(self.on_animation_finished)
-            self.animation21.start()
 
-            self.animation4 = QtCore.QPropertyAnimation(self.Consol, b"minimumWidth")
-            self.animation4.setDuration(self.duration_anim_sideMenu)
-            self.animation4.setStartValue(0)
-            self.animation4.setEndValue(self.frame_6_min_width)
-            self.animation4.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation4.finished.connect(self.on_animation_finished)
-            self.animation4.start()
             self.animation41 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
             self.animation41.setDuration(self.duration_anim_sideMenu)
             self.animation41.setStartValue(0)
@@ -899,8 +1014,6 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def func_search(self):   # Запросы и поиск
         o_t = self.out_text
         run_prog = self.process_name_update()
-        conv_num = {'ютуб':'https://www.youtube.com/','вконтакте':'https://vk.com/','кинопоиск':'https://www.kinopoisk.ru',
-                    'яндексмаркет':'https://market.yandex.ru/'}
         if 'найти' in o_t or 'найди' in o_t or 'введи' in o_t or 'види' in o_t:
             if run_prog.count('browser.exe') < 3:
                 try:
@@ -929,7 +1042,9 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         print('func_open')
         o_t = self.out_text
         list_o_t = o_t.split()+['']
-        conv_num = {'ютуб':'https://www.youtube.com/','вконтакте':'https://vk.com/','кинопоиск':'https://www.kinopoisk.ru',
+        conv_num = self.conv_name_sites
+        print(conv_num)
+        conv_num1 = {'ютуб':'https://www.youtube.com/','вконтакте':'https://vk.com/','кинопоиск':'https://www.kinopoisk.ru',
                     'яндексмаркет':'https://market.yandex.ru/','ютюб':'https://www.youtube.com/'}
         conv_num_file = {"проводник":"explorer C:/"}
         conv_num_temp = {'ютуб':"opened_youtube",'проводник':'opened_explorer'}
