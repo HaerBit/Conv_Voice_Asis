@@ -349,6 +349,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def ClearList_Sites(self,Class):
         global Saved_Sites,parameter_save_file,Saved_Prog
+
         def Site_Clear():
             if self.clear_site_list_confirm:
                 self.Browser_saved_sites.clear()
@@ -359,6 +360,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 print(self.clear_site_list_confirm)
             if self.clear_site_list_confirm == 0:
                 self.ClearList_SitesProg_side_in(self.Confirmation_clearing_site_list)
+
         def Prog_Clear():
             if self.clear_prog_list_confirm:
                 self.Browser_saved_prog.clear()
@@ -369,12 +371,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 print(self.clear_prog_list_confirm)
             if self.clear_prog_list_confirm == 0:
                 self.ClearList_SitesProg_side_in(self.Confirmation_clearing_prog_list)
+
         set_def_Clear = {"Site":lambda : Site_Clear(),
                          "Prog":lambda : Prog_Clear()}
-        try:
-            set_def_Clear[Class]()
-        except Exception as f:
-            print(f)
+
+        set_def_Clear[Class]()
 
     def Save_Sites_Adress_Name(self,Code_Name): # сохранение имени и адреса страницы или сайта
         global Saved_Sites,parameter_save_file , Saved_Prog
@@ -382,7 +383,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         try:
             if Code_Name == "Site":
                 Name_and_adress = {self.Name_sites_LE.text():self.Adress_sites_LE.text()}
-                if Name_and_adress not in Saved_Sites: # отсутсвие допуска уже введенных переменных
+                if Name_and_adress not in Saved_Sites and Name_and_adress !={'':''}: # отсутствие допуска уже введенных переменных
                     Saved_Sites.append(Name_and_adress)
                     parameter_save_file['Saved_Sites'] = Saved_Sites
                     self.save_savefile()
@@ -396,10 +397,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
             else:
                 Name_and_adress = {self.Name_prog_LE.text(): self.Adress_prog_LE.text()}
-                if Name_and_adress not in Saved_Prog:  # отсутсвие допуска уже введенных переменных
+                if Name_and_adress not in Saved_Prog and Name_and_adress !={'':''}:  # отсутствие допуска уже введенных переменных
                     Saved_Prog.append(Name_and_adress)
                     parameter_save_file['Saved_Prog'] = Saved_Prog
                     self.save_savefile()
+                print("progi",Saved_Prog)
 
                 self.Browser_saved_prog.clear()
                 self.Name_prog_LE.clear()
@@ -423,7 +425,6 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                         saved_sites_text.append(f'{i}  |  {a}')
                         self.conv_name_sites[i] = a
 
-            print(self.conv_name_sites)
             self.saved_sites_text_full = '\n'.join(saved_sites_text)
             self.Browser_saved_sites.setText(self.saved_sites_text_full)
         except Exception as f:
@@ -438,7 +439,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                     saved_prog_text.append(f'{i}  |  {a}')
                     self.conv_name_prog[i]=a
 
-        print(self.conv_name_prog)
+
         self.saved_prog_text_full = '\n'.join(saved_prog_text)
         self.Browser_saved_prog.setText(self.saved_prog_text_full)
 
@@ -1153,6 +1154,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         o_t = self.out_text
         list_o_t = o_t.split()+['']
         conv_num = self.conv_name_sites
+        self.conv_name_prog
         print(conv_num)
         conv_num1 = {'ютуб':'https://www.youtube.com/','вконтакте':'https://vk.com/','кинопоиск':'https://www.kinopoisk.ru',
                     'яндексмаркет':'https://market.yandex.ru/','ютюб':'https://www.youtube.com/'}
@@ -1182,6 +1184,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 self.place_mid = 7
                 self.place_sma = 2
                 self.place_sma_2 = 2
+            elif word in self.conv_name_prog:
+                program = self.conv_name_prog[word]
+                print(program)
+                self.temp = 'opened_any_program'
+                subprocess.Popen(program)
 
         except Exception as e:
             print(f'func_open - {e}')
