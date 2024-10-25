@@ -52,6 +52,7 @@ Personality_CP = parameter_save_file['Personality_CP']
 
 Speaker_Voice = parameter_save_file['Speaker_Voice']
 Saved_Sites = parameter_save_file['Saved_Sites']
+Saved_Prog = parameter_save_file['Saved_Prog']
 
 class ChatMemory:
     def __init__(self, max_messages=15):
@@ -197,8 +198,21 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Question_Interval_saveButton.clicked.connect(self.Save_Ttaaq)
 
         # func - sites
-        self.Save_sites_info_PButton.clicked.connect(self.Save_Sites_Adress_Name)
-        self.Clear_list_Button.clicked.connect(self.ClearList_Sites)
+        self.Save_sites_info_PButton.clicked.connect(lambda :self.Save_Sites_Adress_Name("Site"))
+        self.Clear_list_Button.clicked.connect(lambda: self.ClearList_Sites("Site"))
+        self.Disagreement_CSitesList_button.clicked.connect(lambda :self.ClearList_SitesProg_side(self.Confirmation_clearing_site_list))
+        self.clear_site_list_confirm = 0
+
+        # func - program
+        self.Save_prog_info_PButton.clicked.connect(lambda :self.Save_Sites_Adress_Name("Prog"))
+        self.PathTo_adress_prog.clicked.connect(self.PathTo_setAdressProg)
+        self.Disagreement_CProgList_button.clicked.connect(lambda :self.ClearList_SitesProg_side(self.Confirmation_clearing_prog_list))
+        self.Clear_listP_Button.clicked.connect(lambda: self.ClearList_Sites("Prog"))
+        self.clear_prog_list_confirm = 0
+
+        self.confirm_clear_SitesLists = 0
+        self.confirm_clear_ProgLists = 0
+
 
         self.file_path = parameter_save_file['Browser_directory']
         self.save_file = self.file_path
@@ -296,47 +310,142 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Sub_Button.setIcon(self.Sub_Button_icon_off)
         self.Sub_Button.setIconSize(QtCore.QSize(24, 24))
 
-    def ClearList_Sites(self):
-        global Saved_Sites,parameter_save_file
-        self.Browser_saved_sites.clear()
-        Saved_Sites =[]
-        parameter_save_file['Saved_Sites'] = []
-        self.save_savefile()
+
+    def ClearList_SitesProg_side(self,object):
+        if self.animation_block:
+            return
+        self.animation_block = True
+
+        obj_set = {self.Confirmation_clearing_site_list: lambda:setattr(self,'clear_site_list_confirm', 0),
+                   self.Confirmation_clearing_prog_list: lambda:setattr(self,'clear_prog_list_confirm', 0)}
+        obj_set[object]()
+
+        self.animation1 = QtCore.QPropertyAnimation(object, b"maximumWidth")
+        self.animation1.setDuration(self.duration_anim_sideMenu)
+        self.animation1.setStartValue(225)
+        self.animation1.setEndValue(75)
+        self.animation1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+        self.animation1.finished.connect(self.on_animation_finished)
+        self.animation1.start()
+
+    def ClearList_SitesProg_side_in(self,object):
+        if self.animation_block:
+            return
+        self.animation_block = True
+
+        obj_set = {self.Confirmation_clearing_site_list: lambda:setattr(self,'clear_site_list_confirm', 1),
+                   self.Confirmation_clearing_prog_list: lambda:setattr(self,'clear_prog_list_confirm', 1)}
+        obj_set[object]()
+        print(object)
 
 
-    def Save_Sites_Adress_Name(self): # сохранение имени и адреса страницы или сайта
-        global Saved_Sites,parameter_save_file
+        self.animation10 = QtCore.QPropertyAnimation(object, b"maximumWidth")
+        self.animation10.setDuration(self.duration_anim_sideMenu)
+        self.animation10.setStartValue(75)
+        self.animation10.setEndValue(225)
+        self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+        self.animation10.finished.connect(self.on_animation_finished)
+        self.animation10.start()
 
-        Name_site = self.Name_sites_LE.text()
-        Adress_sites = self.Adress_sites_LE.text()
-        Name_and_adress = {Name_site:Adress_sites}
+    def ClearList_Sites(self,Class):
+        global Saved_Sites,parameter_save_file,Saved_Prog
+        def Site_Clear():
+            if self.clear_site_list_confirm:
+                self.Browser_saved_sites.clear()
+                Saved_Sites = []
+                parameter_save_file['Saved_Sites'] = Saved_Sites
+                self.ClearList_SitesProg_side(self.Confirmation_clearing_site_list)
+                self.save_savefile()
+                print(self.clear_site_list_confirm)
+            if self.clear_site_list_confirm == 0:
+                self.ClearList_SitesProg_side_in(self.Confirmation_clearing_site_list)
+        def Prog_Clear():
+            if self.clear_prog_list_confirm:
+                self.Browser_saved_prog.clear()
+                Saved_Prog = []
+                parameter_save_file['Saved_Prog'] = Saved_Prog
+                self.ClearList_SitesProg_side(self.Confirmation_clearing_prog_list)
+                self.save_savefile()
+                print(self.clear_prog_list_confirm)
+            if self.clear_prog_list_confirm == 0:
+                self.ClearList_SitesProg_side_in(self.Confirmation_clearing_prog_list)
+        set_def_Clear = {"Site":lambda : Site_Clear(),
+                         "Prog":lambda : Prog_Clear()}
+        try:
+            set_def_Clear[Class]()
+        except Exception as f:
+            print(f)
 
-        if Name_and_adress not in Saved_Sites: # отсутсвие допуска уже введенных переменных
-            Saved_Sites.append(Name_and_adress)
-            parameter_save_file['Saved_Sites'] = Saved_Sites
-            self.save_savefile()
+    def Save_Sites_Adress_Name(self,Code_Name): # сохранение имени и адреса страницы или сайта
+        global Saved_Sites,parameter_save_file , Saved_Prog
+        print(Code_Name)
+        try:
+            if Code_Name == "Site":
+                Name_and_adress = {self.Name_sites_LE.text():self.Adress_sites_LE.text()}
+                if Name_and_adress not in Saved_Sites: # отсутсвие допуска уже введенных переменных
+                    Saved_Sites.append(Name_and_adress)
+                    parameter_save_file['Saved_Sites'] = Saved_Sites
+                    self.save_savefile()
 
-        self.Browser_saved_sites.clear()
-        self.Name_sites_LE.clear()
-        self.Adress_sites_LE.clear()
+                self.Browser_saved_sites.clear()
+                self.Name_sites_LE.clear()
+                self.Adress_sites_LE.clear()
 
-        self.Conv_sites_to_text()
-        self.Browser_saved_sites.setText(self.saved_sites_text_full)
+                self.Conv_sites_to_text()
+                self.Browser_saved_sites.setText(self.saved_sites_text_full)
+
+            else:
+                Name_and_adress = {self.Name_prog_LE.text(): self.Adress_prog_LE.text()}
+                if Name_and_adress not in Saved_Prog:  # отсутсвие допуска уже введенных переменных
+                    Saved_Prog.append(Name_and_adress)
+                    parameter_save_file['Saved_Prog'] = Saved_Prog
+                    self.save_savefile()
+
+                self.Browser_saved_prog.clear()
+                self.Name_prog_LE.clear()
+                self.Adress_prog_LE.clear()
+
+                self.Conv_prog_to_text()
+                self.Browser_saved_prog.setText(self.saved_prog_text_full)
+        except Exception as f:
+            print(f)
 
     def Conv_sites_to_text(self):
-        self.conv_name_sites = {}  #
-        saved_sites_text = []
+        print("текст из сайтов")
+        try:
+            self.conv_name_sites = {}
+            saved_sites_text=[]
+            for string in Saved_Sites:
+                for i, a in string.items():
+                    if i and a:
+                        if not a.startswith('https://'):
+                            a = 'https://' + a
+                        saved_sites_text.append(f'{i}  |  {a}')
+                        self.conv_name_sites[i] = a
 
-        for string in Saved_Sites:
+            print(self.conv_name_sites)
+            self.saved_sites_text_full = '\n'.join(saved_sites_text)
+            self.Browser_saved_sites.setText(self.saved_sites_text_full)
+        except Exception as f:
+            print(f)
+
+    def Conv_prog_to_text(self):
+        self.conv_name_prog = {}
+        saved_prog_text = []
+        for string in Saved_Prog:
             for i, a in string.items():
                 if i and a:
-                    if not a.startswith('https://'):
-                        a = 'https://' + a
-                    self.conv_name_sites[i] = a
-                    saved_sites_text.append(f'{i}  |  {a}')
+                    saved_prog_text.append(f'{i}  |  {a}')
+                    self.conv_name_prog[i]=a
 
-        print(self.conv_name_sites)
-        self.saved_sites_text_full = '\n'.join(saved_sites_text)
+        print(self.conv_name_prog)
+        self.saved_prog_text_full = '\n'.join(saved_prog_text)
+        self.Browser_saved_prog.setText(self.saved_prog_text_full)
+
+    def PathTo_setAdressProg(self):
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getOpenFileName()
+        self.Adress_prog_LE.setText(file_path)
 
     def Send_Message_Sub(self,response):
         if self.thread:
@@ -514,6 +623,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Change_Voice_Speaker(Speaker_Voice)
 
 
+        self.Conv_prog_to_text()
         self.Conv_sites_to_text()
 
         self.Browser_saved_sites.setText(self.saved_sites_text_full)
