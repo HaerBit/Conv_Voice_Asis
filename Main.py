@@ -29,8 +29,8 @@ from PyQt5.QtWidgets import (QFileDialog)
 Ui_Form, _ = uic.loadUiType('VoiceConvAsis_U_3I.ui')
 Ui_Form_sub, _ = uic.loadUiType('Threaded_sub_window.ui')
 temp_vol = -1
-
 file_name = 'OpenAiApiKey.txt'
+
 if not os.path.exists(file_name):
     open(file_name, 'w',encoding='utf-8').close()
 with open(file_name, 'r',encoding='utf-8') as file:
@@ -53,6 +53,12 @@ Personality_CP = parameter_save_file['Personality_CP']
 Speaker_Voice = parameter_save_file['Speaker_Voice']
 Saved_Sites = parameter_save_file['Saved_Sites']
 Saved_Prog = parameter_save_file['Saved_Prog']
+
+Sub_Pos_W= parameter_save_file['Sub_Pos']
+Sub_Pos = parameter_save_file['Sub_Pos_XY']
+X_axis = parameter_save_file['Xaxis']
+Y_axis = parameter_save_file['Yaxis']
+
 
 class ChatMemory:
     def __init__(self, max_messages=15):
@@ -103,7 +109,7 @@ class Sub_Win(QMainWindow):
             self.setAttribute(Qt.WA_TranslucentBackground, True)
             self.setWindowFlags(Qt.FramelessWindowHint)
             self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-            self.move(int(screen_size.width()/2-250),int(screen_size.height())-150)
+            self.move(Sub_Pos[0],Sub_Pos[1])
             self.screen_heights = {720:0, 1080:4, 1440:8, 2160:12, 2880:16, 4320:20}
 
             self.label.setStyleSheet('color:rgb(220, 220, 220);'
@@ -173,6 +179,39 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             'waterfox.exe',      # Waterfox
             'otter.exe',         # Otter Browser
         ]
+
+        self.Style_Sheet_act = ('QPushButton {'
+                           'background: rgb(20, 20, 20);'
+                           'color: white;'
+                           'border-radius: 15px;'
+                           'font-family:System;'
+                           'font-size:12px;}'
+
+                           'QPushButton :hover {'
+                           'background: rgb(20, 20, 20);'
+                           'color: white;'
+                           'border-radius: 15px;'
+                           'font-family:System;'
+                           'font-size:12px;}'
+
+                           'QPushButton :pressed {'
+                           'background: rgb(10, 10, 10);}')
+        self.Style_Sheet_norm = ('QPushButton {'
+                            'background: rgb(40, 40, 40);'
+                            'color: white;'
+                            'border-radius: 15px;'
+                            'font-family:System;'
+                            'font-size:12px;}'
+
+                            'QPushButton :hover {'
+                            'background: rgb(20, 20, 20);'
+                            'color: white;'
+                            'border-radius: 15px;'
+                            'font-family:System;'
+                            'font-size:12px;}'
+
+                            'QPushButton :pressed {'
+                            'background: rgb(10, 10, 10);}')
 
         self.pushButton_2.clicked.connect(self.startVoiceRecognition)
         self.pushButton_2.toggled.connect(self.startVoiceRecognition)
@@ -301,6 +340,19 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.timer_interval_set()
         self.timer.start(self.interval)
 
+        # позиция субтитров
+        self.Sub_Pos_SaveButton.clicked.connect(lambda: self.SubPos_Save())
+
+        self.sub_pos_NW_Button.clicked.connect(lambda: self.Position_Subtitles_Set('nw'))
+        self.sub_pos_N_Button.clicked.connect(lambda: self.Position_Subtitles_Set('n'))
+        self.sub_pos_NE_Button.clicked.connect(lambda: self.Position_Subtitles_Set('ne'))
+        self.sub_pos_E_Button.clicked.connect(lambda: self.Position_Subtitles_Set('e'))
+        self.sub_pos_SE_Button.clicked.connect(lambda: self.Position_Subtitles_Set('se'))
+        self.sub_pos_S_Button.clicked.connect(lambda: self.Position_Subtitles_Set('s'))
+        self.sub_pos_SW_Button.clicked.connect(lambda: self.Position_Subtitles_Set('sw'))
+        self.sub_pos_W_Button.clicked.connect(lambda: self.Position_Subtitles_Set('w'))
+        self.sub_pos_C_Button.clicked.connect(lambda: self.Position_Subtitles_Set('c'))
+
         # "Субтитры" для бота - subtitles for bot
         self.thread = None
         self.Sub_Button.clicked.connect(self.on_btn)
@@ -310,6 +362,69 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Sub_Button.setIcon(self.Sub_Button_icon_off)
         self.Sub_Button.setIconSize(QtCore.QSize(24, 24))
 
+    def Position_Subtitles_Set(self,pos):
+        self.SubPos_Save(pos)
+
+    def SubPos_Save(self,pos=None):
+        global X_axis, Y_axis,Sub_Pos
+        try:
+            screen = QApplication.primaryScreen()
+            screen_size = screen.size()
+            X_size_screen_monitor = screen_size.width()
+            Y_size_screen_monitor = screen_size.height()
+            Position_Sub_dict = {'nw': [0, 0],
+                                 'n': [X_size_screen_monitor // 2 - 250, 0],
+                                 'ne': [X_size_screen_monitor - 500, 0],
+                                 'w': [0, Y_size_screen_monitor // 2 - 50],
+                                 'c': [X_size_screen_monitor // 2 - 250, Y_size_screen_monitor // 2 - 50],
+                                 'e': [X_size_screen_monitor - 500, Y_size_screen_monitor // 2 - 50],
+                                 'sw': [0, Y_size_screen_monitor - 100],
+                                 's': [X_size_screen_monitor // 2 - 250, Y_size_screen_monitor - 100],
+                                 'se': [X_size_screen_monitor - 500, Y_size_screen_monitor - 100]}
+            Position_Sub_ButtonSet = {'nw': self.sub_pos_NW_Button,
+                                 'n': self.sub_pos_N_Button,
+                                 'ne': self.sub_pos_NE_Button,
+                                 'w':  self.sub_pos_W_Button,
+                                 'c':  self.sub_pos_C_Button,
+                                 'e':  self.sub_pos_E_Button,
+                                 'sw': self.sub_pos_SW_Button,
+                                 's':  self.sub_pos_S_Button,
+                                 'se': self.sub_pos_SE_Button}
+            for btn in Position_Sub_ButtonSet.values():
+                btn.setStyleSheet(self.Style_Sheet_norm)
+
+            if pos in Position_Sub_dict:
+                Position_Sub_ButtonSet[pos].setStyleSheet(self.Style_Sheet_act)
+
+            X_axis = self.Add_to_Xaxis_LE.text()
+            Y_axis = self.Add_to_Yaxis_LE.text()
+
+            if X_axis =='' or not X_axis.isdigit():
+                X_axis == self.Add_to_Xaxis_LE.setText('0')
+                X_axis = 0
+            else:
+                X_axis = int(X_axis)
+
+            if Y_axis == '' or not Y_axis.isdigit():
+                Y_axis == self.Add_to_Yaxis_LE.setText('0')
+                Y_axis = 0
+            else:
+                Y_axis = int(Y_axis)
+            if pos in Position_Sub_dict:
+                Sub_Pos = Position_Sub_dict[pos]
+            Sub_Pos[0] = Sub_Pos[0] + X_axis
+            Sub_Pos[1] = Sub_Pos[1] + Y_axis
+            parameter_save_file['Sub_Pos']=pos
+            parameter_save_file['Xaxis'] = X_axis
+            parameter_save_file['Yaxis'] = Y_axis
+            self.save_savefile()
+            if self.thread:
+                self.SubWin.close()
+                self.SubWin = Sub_Win(self.thread)
+                self.SubWin.show()
+        except Exception as f:
+            print(f)
+        print('> Sub position -',pos, Sub_Pos)
 
     def ClearList_SitesProg_side(self,object):
         if self.animation_block:
@@ -475,38 +590,8 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def Change_Voice_Speaker(self,speaker):
         global Speaker_Voice
-        Style_Sheet_act = ('QToolButton {'
-                           'background: rgb(20, 20, 20);'
-                           'color: white;'
-                           'border-radius: 15px;'
-                           'font-family:System;'
-                           'font-size:12px;}'
-
-                           'QToolButton :hover {'
-                           'background: rgb(20, 20, 20);'
-                           'color: white;'
-                           'border-radius: 15px;'
-                           'font-family:System;'
-                           'font-size:12px;}'
-
-                           'QToolButton :pressed {'
-                           'background: rgb(10, 10, 10);}')
-        Style_Sheet_norm = ('QToolButton {'
-                            'background: rgb(40, 40, 40);'
-                            'color: white;'
-                            'border-radius: 15px;'
-                            'font-family:System;'
-                            'font-size:12px;}'
-
-                            'QToolButton :hover {'
-                            'background: rgb(20, 20, 20);'
-                            'color: white;'
-                            'border-radius: 15px;'
-                            'font-family:System;'
-                            'font-size:12px;}'
-
-                            'QToolButton :pressed {'
-                            'background: rgb(10, 10, 10);}')
+        Style_Sheet_act = self.Style_Sheet_act
+        Style_Sheet_norm = self.Style_Sheet_norm
 
         buttons = {
             'baya': self.baya_tButton,
@@ -628,6 +713,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Conv_sites_to_text()
 
         self.Browser_saved_sites.setText(self.saved_sites_text_full)
+
+        # Subtitles position
+        self.Add_to_Xaxis_LE.setText(str(X_axis))
+        self.Add_to_Yaxis_LE.setText(str(Y_axis))
+        self.SubPos_Save(Sub_Pos_W)
 
         """self.voice_adoptation()"""
         self.click_browser_1.setText(self.file_path)

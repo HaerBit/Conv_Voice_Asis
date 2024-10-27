@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>799</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -29,7 +29,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>VocieConvAsis</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icon/icon_VoiceConvAsis.png</normaloff>icon/icon_VoiceConvAsis.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -1084,7 +1088,7 @@ background-color: rgb(10,10,10);
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>800</width>
+                 <width>0</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -1130,8 +1134,8 @@ border:5px;</string>
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>560</width>
-                     <height>480</height>
+                     <width>330</width>
+                     <height>640</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1382,7 +1386,7 @@ padding: 0 0 0 10</string>
 font-size:12px</string>
                                </property>
                                <property name="text">
-                                <string>Save</string>
+                                <string>Add</string>
                                </property>
                               </widget>
                              </item>
@@ -1920,10 +1924,10 @@ padding: 0 0 0 0</string>
                                 <string notr="true">background: rgb(40,40,40);
  color: white;
  font-family:&quot;System&quot;;
-font-size:12px</string>
+font-size:10px</string>
                                </property>
                                <property name="text">
-                                <string>Save</string>
+                                <string>Add</string>
                                </property>
                               </widget>
                              </item>
@@ -2294,7 +2298,7 @@ font-size:12</string>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>0</width>
+                 <width>800</width>
                  <height>16777215</height>
                 </size>
                </property>
@@ -2366,9 +2370,9 @@ border:5px;</string>
                    <property name="geometry">
                     <rect>
                      <x>0</x>
-                     <y>0</y>
-                     <width>519</width>
-                     <height>738</height>
+                     <y>-185</y>
+                     <width>698</width>
+                     <height>825</height>
                     </rect>
                    </property>
                    <property name="styleSheet">
@@ -2600,7 +2604,7 @@ border-radius:15px;</string>
                                </property>
                                <property name="icon">
                                 <iconset>
-                                 <normaloff>../../../tegip/.designer/backup/cross.png</normaloff>../../../tegip/.designer/backup/cross.png</iconset>
+                                 <normaloff>../../tegip/.designer/backup/cross.png</normaloff>../../tegip/.designer/backup/cross.png</iconset>
                                </property>
                               </widget>
                              </item>
@@ -3330,7 +3334,7 @@ padding 10 0 10 0</string>
                            </widget>
                           </item>
                           <item>
-                           <widget class="QToolButton" name="baya_tButton">
+                           <widget class="QPushButton" name="baya_tButton">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3350,23 +3354,24 @@ padding 10 0 10 0</string>
                              <bool>false</bool>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QToolButton {
+                             <string notr="true">QPushButton {
     background: rgb(40, 40, 40);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
+	font-size:12
 }
-QToolButton :hover {
+QPushButton:hover {
     background: rgb(20, 20, 20);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
-
+	font-size:12
 }
-QToolButton :pressed {
+QPushButton:pressed {
     background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
 }</string>
                             </property>
                             <property name="text">
@@ -3381,19 +3386,10 @@ QToolButton :pressed {
                             <property name="autoRepeat">
                              <bool>false</bool>
                             </property>
-                            <property name="popupMode">
-                             <enum>QToolButton::DelayedPopup</enum>
-                            </property>
-                            <property name="toolButtonStyle">
-                             <enum>Qt::ToolButtonTextOnly</enum>
-                            </property>
-                            <property name="autoRaise">
-                             <bool>true</bool>
-                            </property>
                            </widget>
                           </item>
                           <item>
-                           <widget class="QToolButton" name="kseniya_tButton">
+                           <widget class="QPushButton" name="kseniya_tButton">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3407,23 +3403,24 @@ QToolButton :pressed {
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QToolButton {
+                             <string notr="true">QPushButton {
     background: rgb(40, 40, 40);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
+	font-size:12
 }
-QToolButton :hover {
+QPushButton:hover {
     background: rgb(20, 20, 20);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
-
+	font-size:12
 }
-QToolButton :pressed {
+QPushButton:pressed {
     background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
 }</string>
                             </property>
                             <property name="text">
@@ -3432,7 +3429,7 @@ QToolButton :pressed {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QToolButton" name="xenia_tButton">
+                           <widget class="QPushButton" name="xenia_tButton">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3446,23 +3443,24 @@ QToolButton :pressed {
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QToolButton {
+                             <string notr="true">QPushButton {
     background: rgb(40, 40, 40);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
+	font-size:12
 }
-QToolButton :hover {
+QPushButton:hover {
     background: rgb(20, 20, 20);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
-
+	font-size:12
 }
-QToolButton :pressed {
+QPushButton:pressed {
     background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
 }</string>
                             </property>
                             <property name="text">
@@ -3471,7 +3469,7 @@ QToolButton :pressed {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QToolButton" name="eugene_tButton">
+                           <widget class="QPushButton" name="eugene_tButton">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3485,23 +3483,24 @@ QToolButton :pressed {
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QToolButton {
+                             <string notr="true">QPushButton {
     background: rgb(40, 40, 40);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
+	font-size:12
 }
-QToolButton :hover {
+QPushButton:hover {
     background: rgb(20, 20, 20);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
-
+	font-size:12
 }
-QToolButton :pressed {
+QPushButton:pressed {
     background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
 }</string>
                             </property>
                             <property name="text">
@@ -3510,7 +3509,7 @@ QToolButton :pressed {
                            </widget>
                           </item>
                           <item>
-                           <widget class="QToolButton" name="aidar_tButton">
+                           <widget class="QPushButton" name="aidar_tButton">
                             <property name="sizePolicy">
                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                               <horstretch>0</horstretch>
@@ -3524,23 +3523,24 @@ QToolButton :pressed {
                              </size>
                             </property>
                             <property name="styleSheet">
-                             <string notr="true">QToolButton {
+                             <string notr="true">QPushButton {
     background: rgb(40, 40, 40);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
+	font-size:12
 }
-QToolButton :hover {
+QPushButton:hover {
     background: rgb(20, 20, 20);
     color: white;
     border-radius: 15px;
 	font-family:System;
-	font-size:12px;
-
+	font-size:12
 }
-QToolButton :pressed {
+QPushButton:pressed {
     background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
 }</string>
                             </property>
                             <property name="text">
@@ -3715,10 +3715,25 @@ border-radius:15px</string>
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">background: rgb(40,40,40);
-color:white;
-padding:0px 10px 0px 10px;
-border-radius:15px</string>
+                          <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
                          </property>
                          <property name="text">
                           <string>Save</string>
@@ -3728,10 +3743,10 @@ border-radius:15px</string>
                       </layout>
                      </widget>
                     </item>
-                    <item alignment="Qt::AlignTop">
-                     <widget class="QFrame" name="pustot">
+                    <item>
+                     <widget class="QFrame" name="frame_24">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
@@ -3739,7 +3754,640 @@ border-radius:15px</string>
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
-                        <height>165</height>
+                        <height>210</height>
+                       </size>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_20">
+                       <property name="spacing">
+                        <number>10</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item alignment="Qt::AlignTop">
+                        <widget class="QFrame" name="frame_22">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>300</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>337</width>
+                           <height>16777215</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(0,0,0);border-radius:20</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Raised</enum>
+                         </property>
+                         <layout class="QGridLayout" name="gridLayout_11">
+                          <property name="leftMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>10</number>
+                          </property>
+                          <property name="spacing">
+                           <number>10</number>
+                          </property>
+                          <item row="1" column="4" rowspan="3">
+                           <widget class="QFrame" name="frame_23">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>16777211</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true"/>
+                            </property>
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <layout class="QGridLayout" name="gridLayout_12">
+                             <property name="leftMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="spacing">
+                              <number>10</number>
+                             </property>
+                             <item row="2" column="0">
+                              <widget class="QPushButton" name="sub_pos_SW_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>SW</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="1" column="1">
+                              <widget class="QPushButton" name="sub_pos_C_Button">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>C</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="1" column="0">
+                              <widget class="QPushButton" name="sub_pos_W_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>W</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="2" column="2">
+                              <widget class="QPushButton" name="sub_pos_SE_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>SE</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="0" column="0">
+                              <widget class="QPushButton" name="sub_pos_NW_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>NW</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="2" column="1">
+                              <widget class="QPushButton" name="sub_pos_S_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>S</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="1" column="2">
+                              <widget class="QPushButton" name="sub_pos_E_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>E</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="0" column="1">
+                              <widget class="QPushButton" name="sub_pos_N_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>N</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item row="0" column="2">
+                              <widget class="QPushButton" name="sub_pos_NE_Button">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>35</width>
+                                 <height>35</height>
+                                </size>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                               </property>
+                               <property name="text">
+                                <string>NE</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item row="0" column="1" colspan="4">
+                           <widget class="QLabel" name="label_14">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>406</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">color:white;font-family:System;
+font-size:12</string>
+                            </property>
+                            <property name="text">
+                             <string>Subtitles position</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="2" column="1" colspan="3">
+                           <widget class="QLineEdit" name="Add_to_Yaxis_LE">
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="toolTipDuration">
+                             <number>0</number>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">background:rgb(40,40,40);
+border-radius:15px;
+color:white;
+font-family:System;
+font-size:12;
+padding: 0 0 0 10
+</string>
+                            </property>
+                            <property name="placeholderText">
+                             <string>Adding to the Y-axis</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="1" colspan="3">
+                           <widget class="QLineEdit" name="Add_to_Xaxis_LE">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                             <size>
+                              <width>111</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="toolTipDuration">
+                             <number>0</number>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">background:rgb(40,40,40);
+border-radius:15px;
+color:white;
+font-family:System;
+font-size:12;
+padding: 0 0 0 10
+</string>
+                            </property>
+                            <property name="text">
+                             <string/>
+                            </property>
+                            <property name="placeholderText">
+                             <string>Adding to the X-axis</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="3" column="1">
+                           <widget class="QPushButton" name="Sub_Pos_SaveButton">
+                            <property name="minimumSize">
+                             <size>
+                              <width>55</width>
+                              <height>35</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">QPushButton {
+    background: rgb(40, 40, 40);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:hover {
+    background: rgb(20, 20, 20);
+    color: white;
+    border-radius: 15px;
+	font-family:System;
+	font-size:12
+}
+QPushButton:pressed {
+    background: rgb(10, 10, 10);
+	font-family:System;
+	font-size:12
+}</string>
+                            </property>
+                            <property name="text">
+                             <string>Save</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QFrame" name="frame_25">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="minimumSize">
+                          <size>
+                           <width>103</width>
+                           <height>0</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(0,0,0);border-radius:20</string>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Raised</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignTop">
+                     <widget class="QFrame" name="pustot">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
                        </size>
                       </property>
                       <property name="styleSheet">
