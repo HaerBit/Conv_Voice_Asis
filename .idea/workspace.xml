@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89b2c337-d58d-480d-ab3b-9a29d802b98c" name="Changes" comment="Added:&#10;- Added a voice synthesis change in the settings">
+    <list default="true" id="89b2c337-d58d-480d-ab3b-9a29d802b98c" name="Changes" comment="_Adding your own programs links_&#10;Changes:&#10;- Edited the code for saving websites and programs with their addresses.&#10;- Adding links to programs on websites.&#10;- The setting window in the menu (function). &#10;* Setting up the addition of a word and a link to it, but so far only for opening programs.&#10;|&#10;Изменения:&#10;- Отредактирован код для сохранения сайтов и программ с их адресами.&#10;- Добавление ссылок на программы на веб-сайтах.&#10;- Окно настройки в меню (функция). &#10;* Настройка добавления слова и ссылки на него, но пока только для открытия программ.">
+      <change afterPath="$PROJECT_DIR$/Sort_and_replace_text.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Telegram_bot_function.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/other_file.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/фыв.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/VoiceConv.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/VoiceConv.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
@@ -12,6 +16,8 @@
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OpenAiApiKey.txt" beforeDir="false" afterPath="$PROJECT_DIR$/OpenAiApiKey.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/VoiceConvAsis_U_3I.ui" beforeDir="false" afterPath="$PROJECT_DIR$/VoiceConvAsis_U_3I.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_command_func.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example.py" beforeDir="false" afterPath="$PROJECT_DIR$/example.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/savefile.json" beforeDir="false" afterPath="$PROJECT_DIR$/savefile.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
@@ -23,15 +29,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Setup Script" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -57,23 +62,28 @@
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Python.Main (1).executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.crypto.executor": "Run",
-    "Python.cryptography.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.еtes.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Works/VoiceConvAsis",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Python.Main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Telegram_bot_function.executor&quot;: &quot;Run&quot;,
+    &quot;Python.crypto.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cryptography.executor&quot;: &quot;Run&quot;,
+    &quot;Python.data_command_func.executor&quot;: &quot;Run&quot;,
+    &quot;Python.other_file.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.еtes.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Works/VoiceConvAsis&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Works\VoiceConvAsis" />
@@ -94,6 +104,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Telegram_bot_function" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="VoiceConv" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\hiriimosa\PycharmProjects\Conv_Voice_Asis\Telegram_bot_function.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -124,7 +156,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="еtes" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="other_file" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="VoiceConv" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -137,7 +169,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/еtes.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/other_file.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -172,8 +204,9 @@
       <list>
         <item itemvalue="Python.Main" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.Telegram_bot_function" />
+        <item itemvalue="Python.other_file" />
         <item itemvalue="Python.cryptography" />
-        <item itemvalue="Python.еtes" />
       </list>
     </recent_temporary>
   </component>
@@ -335,7 +368,47 @@
       <option name="project" value="LOCAL" />
       <updated>1729232936272</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added:&#10;- Subtitles have been added for the bot's speeches to the user's responses. Needs to be improved.">
+      <option name="closed" value="true" />
+      <created>1729445184709</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1729445184709</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added:&#10;- .ui file for subtitles">
+      <option name="closed" value="true" />
+      <created>1729445402848</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1729445402848</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Added:&#10;- small edited&#10;- correction in the function for changing the volume of the device&#10;\&#10;Добавлено:&#10;- небольшая правка&#10;- исправление в функции изменения громкости устройства">
+      <option name="closed" value="true" />
+      <created>1729588598314</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1729588598314</updated>
+    </task>
+    <task id="LOCAL-00021" summary="_Adding your own site links_&#10;Added:&#10;- A small edit in the code&#10;- A new window (function) of the program for adding links to programs (in the future) and sites. Also optimize its animation with other &quot;console&quot; and &quot;settings&quot; windows.&#10;- Setting up the addition of a word and its link (according to my settings, say &quot;open&quot; in Russian and the name that was entered along with its address.&#10;|&#10;Добавлено:&#10;- Небольшая правка в коде&#10;- Новоe окно (function) программы для добавления ссылок программ (в будущем) и сайтов. Также оптимизация его анимации с другими окнами &quot;консоли&quot; и &quot;настройки&quot;.&#10;- Настройка добавления слова и его ссылки (по моим настройкам скажите  на русском &quot;открой&quot; и то название, что было введено вместе с его адресом.">
+      <option name="closed" value="true" />
+      <created>1729709592563</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1729709592563</updated>
+    </task>
+    <task id="LOCAL-00022" summary="_Adding your own programs links_&#10;Changes:&#10;- Edited the code for saving websites and programs with their addresses.&#10;- Adding links to programs on websites.&#10;- The setting window in the menu (function). &#10;* Setting up the addition of a word and a link to it, but so far only for opening programs.&#10;|&#10;Изменения:&#10;- Отредактирован код для сохранения сайтов и программ с их адресами.&#10;- Добавление ссылок на программы на веб-сайтах.&#10;- Окно настройки в меню (функция). &#10;* Настройка добавления слова и ссылки на него, но пока только для открытия программ.">
+      <option name="closed" value="true" />
+      <created>1729882652343</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1729882652343</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -398,6 +471,11 @@
     <MESSAGE value="Added:&#10;- small edited" />
     <MESSAGE value="Added:&#10;- Added the ability to increase the size of the program window from 640x480 to 800x640. Also the availability of the future possibility of increasing the maximum window size.&#10;- - Optimization of animations" />
     <MESSAGE value="Added:&#10;- Added a voice synthesis change in the settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added:&#10;- Added a voice synthesis change in the settings" />
+    <MESSAGE value="Added:&#10;- Subtitles have been added for the bot's speeches to the user's responses. Needs to be improved." />
+    <MESSAGE value="Added:&#10;- .ui file for subtitles" />
+    <MESSAGE value="Added:&#10;- small edited&#10;- correction in the function for changing the volume of the device&#10;\&#10;Добавлено:&#10;- небольшая правка&#10;- исправление в функции изменения громкости устройства" />
+    <MESSAGE value="_Adding your own site links_&#10;Added:&#10;- A small edit in the code&#10;- A new window (function) of the program for adding links to programs (in the future) and sites. Also optimize its animation with other &quot;console&quot; and &quot;settings&quot; windows.&#10;- Setting up the addition of a word and its link (according to my settings, say &quot;open&quot; in Russian and the name that was entered along with its address.&#10;|&#10;Добавлено:&#10;- Небольшая правка в коде&#10;- Новоe окно (function) программы для добавления ссылок программ (в будущем) и сайтов. Также оптимизация его анимации с другими окнами &quot;консоли&quot; и &quot;настройки&quot;.&#10;- Настройка добавления слова и его ссылки (по моим настройкам скажите  на русском &quot;открой&quot; и то название, что было введено вместе с его адресом." />
+    <MESSAGE value="_Adding your own programs links_&#10;Changes:&#10;- Edited the code for saving websites and programs with their addresses.&#10;- Adding links to programs on websites.&#10;- The setting window in the menu (function). &#10;* Setting up the addition of a word and a link to it, but so far only for opening programs.&#10;|&#10;Изменения:&#10;- Отредактирован код для сохранения сайтов и программ с их адресами.&#10;- Добавление ссылок на программы на веб-сайтах.&#10;- Окно настройки в меню (функция). &#10;* Настройка добавления слова и ссылки на него, но пока только для открытия программ." />
+    <option name="LAST_COMMIT_MESSAGE" value="_Adding your own programs links_&#10;Changes:&#10;- Edited the code for saving websites and programs with their addresses.&#10;- Adding links to programs on websites.&#10;- The setting window in the menu (function). &#10;* Setting up the addition of a word and a link to it, but so far only for opening programs.&#10;|&#10;Изменения:&#10;- Отредактирован код для сохранения сайтов и программ с их адресами.&#10;- Добавление ссылок на программы на веб-сайтах.&#10;- Окно настройки в меню (функция). &#10;* Настройка добавления слова и ссылки на него, но пока только для открытия программ." />
   </component>
 </project>

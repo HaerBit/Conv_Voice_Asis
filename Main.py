@@ -4,6 +4,9 @@ import re
 import subprocess
 import threading
 import time
+from time import sleep
+
+import telebot
 import webbrowser
 import pyautogui
 import pyaudio
@@ -25,19 +28,30 @@ from vosk import Model, KaldiRecognizer
 from PyQt5 import QtWidgets, QtCore, uic,QtGui
 from PyQt5.QtWidgets import (QFileDialog)
 
+from Sort_and_replace_text import Replacing_The_Text
+
+
 # Загрузка UI файла
 Ui_Form, _ = uic.loadUiType('VoiceConvAsis_U_3I.ui')
 Ui_Form_sub, _ = uic.loadUiType('Threaded_sub_window.ui')
 temp_vol = -1
+Chat_message_TG_bot = ''
 file_name = 'OpenAiApiKey.txt'
 
 if not os.path.exists(file_name):
     open(file_name, 'w',encoding='utf-8').close()
 with open(file_name, 'r',encoding='utf-8') as file:
     OpenAi_ApiKey = file.read()
-
 openai.api_key = OpenAi_ApiKey
 
+
+file_name_tg ="Telegram_API.txt"
+if not os.path.exists(file_name_tg):
+    open(file_name_tg, 'w',encoding='utf-8').close()
+with open(file_name_tg, 'r',encoding='utf-8') as file:
+    telegram_api = file.read()
+TG_API = telegram_api
+print(telegram_api)
 with open('savefile.json', 'r', encoding='utf-8') as json_file:
     parameter_save_file = json.load(json_file)
 Number_of_tokens = parameter_save_file['Number_of_tokens']
@@ -61,7 +75,7 @@ Y_axis = parameter_save_file['Yaxis']
 
 
 class ChatMemory:
-    def __init__(self, max_messages=15):
+    def __init__(self, max_messages=10):
         self.max_messages = max_messages
         self.messages = []
 
@@ -92,7 +106,7 @@ def generate_response_history(messages):
         model='gpt-4o-mini',  # Замените на вашу модель
         messages=messages,
         max_tokens=Number_of_tokens*3,
-        temperature=0.2
+        temperature=0.5
     )
     return response.choices[0].message['content'].strip()
 
@@ -143,10 +157,106 @@ class ThreadWindow(QThread):
     def stop(self):
         self.running = False
 
+class TelegramBot:
+    def __init__(self, window):
+        global TG_API
+        self.window = window
+        self.bot = telebot.TeleBot(TG_API)
+        self.allowed_users = [945985582]
+        self.fifteens_times_history_num = 0
+
+        self.start_bot()
+
+    def start_bot(self):
+        thread = threading.Thread(target=self.polling)
+        thread.start()
+
+    def polling(self):
+        @self.bot.message_handler(commands=["start"])
+        def start(m, res=False):
+            try:
+                if m.from_user.id in self.allowed_users:
+                    self.bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь.')
+                else:
+                    print(m.from_user.id)
+                    self.bot.send_message(m.chat.id, 'Я не на связи. У вас нет доступа.')
+            except Exception as f:
+                print(f)
+
+        @self.bot.message_handler(func=lambda message: True)
+        def handle_message(message):
+
+            global Manner_Voice_CP , History_Mem_CP,Personality_CP,parameter_save_file,Chat_message_TG_bot
+            if message.from_user.id not in self.allowed_users:
+                self.bot.send_message(message.chat.id, 'У вас нет доступа.')
+                return
+            ChatHistory = parameter_save_file["Chat_history"]
+            if ChatMemory:
+                memory = ChatMemory()
+                memory.load_messages(ChatHistory)  # Загрузка истории в память
+            else:
+                memory = ChatMemory()
+            set_history_text = False
+
+            if self.fifteens_times_history_num == 10:
+                self.fifteens_times_history_num =0
+                chat_history = memory.get_messages()
+                chat_string = "\n".join(f"{entry['role']}: {entry['content']}" for entry in chat_history)
+                text = (
+                    'сократи информацию из всего текста (в частности у пользователя) такую что может пригодиться на долгое время, что можно вcпомнить на будущее.'
+                    'и то что попросил или потребовал пользователь у ассистента. сократить все очень кратко по возможности в одного предложения. пиши словно идет обращение к ассистенту. при отсутствии важной инфорvации вывести пустоту.'
+                    'нужен только текст о том какой ассистент должен быть с тем, что должен помнить и делать')
+                sys_message = f"'{chat_string}' - {text}"
+                messages_with_system = [{"role": "system", "content": sys_message}]
+                response = generate_response_history(messages_with_system)
+                print(">>>", response, "<<<")
+                messages_with_system = [{"role": "system", "content": (
+                    f"'{response}' - добавь информацию из первого текста в этот '{History_Mem_CP}' адаптируя первый текст под стиль написании второго и также изменяй второй текст добавляя информацию из первого, или просто добавь из первого. пиши словно идет обращение к ассистенту. текст должен быть написано к обращению ассистенту."
+                    f"должно быть все написано обезличено без упоминания пользвателя. все должно быть без противоречий в готовом тексте, если они есть то удалить или изменить в готовом тексте. выведи только в один текст без вопросительных и восклицательных знаков, соответсвенно без вопросов и восклицания. нужен текст-модель общения")}]
+                response = generate_response_history(messages_with_system)
+                print("<<<", response, ">>>")
+                History_Mem_CP = response
+                parameter_save_file['History_Mem_CP'] = History_Mem_CP
+                set_history_text =True
+
+                self.window.user_input_signal_history.emit('1111')
+
+
+            self.fifteens_times_history_num +=1
+            print(self.fifteens_times_history_num)
+            parameter_save_file["Chat_history"] = memory.get_messages()
+            with open('savefile.json', 'w', encoding='utf-8') as json_file:
+                json.dump(parameter_save_file, json_file, ensure_ascii=False, indent=len(parameter_save_file))
+            print('savefile.json saved in folder for TelegramBot')
+
+            system_message = History_Mem_CP + Personality_CP + Manner_Voice_CP
+            print(system_message)
+            user_input = message.text
+            memory.add_message(role='user', content=user_input)
+            messages_with_system = [{"role": "system", "content": system_message}] + memory.get_messages()
+
+            response = generate_response(messages_with_system)
+            Chat_message_TG_bot = f"Пользователь: {user_input}\nБот: {response}"
+            self.window.user_input_signal.emit(user_input)
+            memory.add_message(role='assistant', content=response)
+
+
+            try:
+                print('tg-bot class' + Chat_message_TG_bot )
+                self.bot.send_message(message.chat.id, response)
+            except Exception as e:
+                print(e)
+        self.bot.polling(none_stop=True)
+
+    def handle_text_signal(self, text):
+            None
 class Window(QtWidgets.QMainWindow, Ui_Form):
     text_signal = QtCore.pyqtSignal(str)
+    user_input_signal = QtCore.pyqtSignal(str)
+    user_input_signal_history = QtCore.pyqtSignal(str)
     temp_vol = -1
     initialized_loadfile = False
+
 
     def __init__(self):
         super(Window, self).__init__()
@@ -312,6 +422,11 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.aidar_tButton.clicked.connect(lambda:self.Change_Voice_Speaker('aidar'))
         self.eugene_tButton.clicked.connect(lambda:self.Change_Voice_Speaker('eugene'))
 
+        self.Save_Tg_API.clicked.connect(lambda:self.Save_tgAPI())
+
+        self.side_Tg_bot_Button.clicked.connect(self.side_Tg_bot_consol)
+        self.TgB_Manner = 0
+
         # анимация и значения размера контейнеров - animation and container size values
         self.Side_Menu_Num = 0 # окно настроек
         self.Side_Menu_Num_2 = 0 # боковое меню
@@ -362,6 +477,31 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         self.Sub_Button.setIcon(self.Sub_Button_icon_off)
         self.Sub_Button.setIconSize(QtCore.QSize(24, 24))
 
+        self.user_input_signal_history.connect(self.handle_user_input_history)
+        self.user_input_signal.connect(self.handle_user_input)
+
+    def handle_user_input_history(self,text):
+        print(text)
+        self.History_Sett_TE.setText(History_Mem_CP)
+        self.Save_OpenAI_settings()
+
+    def handle_user_input(self, text):
+        global Chat_message_TG_bot
+        self.out_text = ' '.join(Replacing_The_Text(text))
+        print(self.out_text)
+        self.Telegram_bot_view.append(Chat_message_TG_bot)
+        self.Telegram_bot_view.moveCursor(self.Telegram_bot_view.textCursor().End)
+        try:
+            self.conv_text_to_func()
+        except Exception as f:
+            print(f)
+
+    def Save_tgAPI(self):
+        api_key_tg = self.settings_apikey_Tg.text()
+        with open("Telegram_API.txt", "w", encoding="utf-8") as file:
+            file.write(api_key_tg)
+
+
     def Position_Subtitles_Set(self,pos):
         self.SubPos_Save(pos)
 
@@ -400,13 +540,13 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             Y_axis = self.Add_to_Yaxis_LE.text()
 
             if X_axis =='' or not X_axis.isdigit():
-                X_axis == self.Add_to_Xaxis_LE.setText('0')
+                self.Add_to_Xaxis_LE.setText('0')
                 X_axis = 0
             else:
                 X_axis = int(X_axis)
 
             if Y_axis == '' or not Y_axis.isdigit():
-                Y_axis == self.Add_to_Yaxis_LE.setText('0')
+                self.Add_to_Yaxis_LE.setText('0')
                 Y_axis = 0
             else:
                 Y_axis = int(Y_axis)
@@ -415,6 +555,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             Sub_Pos[0] = Sub_Pos[0] + X_axis
             Sub_Pos[1] = Sub_Pos[1] + Y_axis
             parameter_save_file['Sub_Pos']=pos
+            parameter_save_file['Sub_Pos_XY'] = Sub_Pos
             parameter_save_file['Xaxis'] = X_axis
             parameter_save_file['Yaxis'] = Y_axis
             self.save_savefile()
@@ -497,7 +638,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         print(Code_Name)
         try:
             if Code_Name == "Site":
-                Name_and_adress = {self.Name_sites_LE.text():self.Adress_sites_LE.text()}
+                Name_and_adress = {''.join(Replacing_The_Text(self.Name_sites_LE.text())):self.Adress_sites_LE.text()}
                 if Name_and_adress not in Saved_Sites and Name_and_adress !={'':''}: # отсутствие допуска уже введенных переменных
                     Saved_Sites.append(Name_and_adress)
                     parameter_save_file['Saved_Sites'] = Saved_Sites
@@ -656,10 +797,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         try:
             response = generate_response(messages_with_system)
             self.memory.add_message("assistant", response)
-            self.textBrowser.append(f"Bob: {response}")
+            self.textBrowser.append(f"Bot: {response}")
             self.textBrowser.moveCursor(self.textBrowser.textCursor().End)
             self.history_edit_check +=1
-            if self.history_edit_check >= 3:
+            if self.history_edit_check >= 15:
                 print(self.history_edit_check)
                 self.fifteens_times_history_gen()
                 self.history_edit_check = 0
@@ -708,6 +849,8 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
         self.Change_Voice_Speaker(Speaker_Voice)
 
+        # set API for TgBot
+        self.settings_apikey_Tg.setText(TG_API)
 
         self.Conv_prog_to_text()
         self.Conv_sites_to_text()
@@ -777,7 +920,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                     self.textBrowser.append(f"Bob: {response}")
 
                     self.history_edit_check += 1
-                    if self.history_edit_check == 15:
+                    if self.history_edit_check == 10:
                         print(self.history_edit_check)
                         self.fifteens_times_history_gen()
                         self.history_edit_check = 0
@@ -793,7 +936,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
                 if self.check_activate_sint_voice:
                     self.voice_massage_ask(response)
-                self.out_text = user_input
+                self.out_text = " ".join(Replacing_The_Text(user_input))
                 self.conv_text_to_func()
 
                 parameter_save_file["Chat_history"]=self.memory.get_messages()
@@ -873,6 +1016,47 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         ]
         index = random.randint(0, len(synonyms) - 1)
         self.voice_massage_ask(get_random_message())
+
+    def side_Tg_bot_consol(self):
+        if self.animation_block:
+            return
+        self.animation_block = True
+        if self.TgB_Manner == 0: #открытие окна
+            self.TgB_Manner = 1
+            self.side_Tg_bot_Button.setText(">")
+            self.animation10 = QtCore.QPropertyAnimation(self.Telegram_bot, b"maximumWidth")
+            self.animation10.setDuration(self.duration_anim_sideMenu)
+            self.animation10.setStartValue(10)
+            self.animation10.setEndValue(360)
+            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation10.finished.connect(self.on_animation_finished)
+            self.animation10.start()
+
+            self.animation = QtCore.QPropertyAnimation(self.frame_28, b"maximumHeight")
+            self.animation.setDuration(self.duration_anim_sideMenu)
+            self.animation.setStartValue(55)
+            self.animation.setEndValue(120)
+            self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation.finished.connect(self.on_animation_finished)
+            self.animation.start()
+        else:                     #закрытие окна
+            self.TgB_Manner = 0
+            self.side_Tg_bot_Button.setText("<")
+            self.animation10 = QtCore.QPropertyAnimation(self.Telegram_bot, b"maximumWidth")
+            self.animation10.setDuration(self.duration_anim_sideMenu)
+            self.animation10.setStartValue(360)
+            self.animation10.setEndValue(10)
+            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation10.finished.connect(self.on_animation_finished)
+            self.animation10.start()
+
+            self.animation = QtCore.QPropertyAnimation(self.frame_28, b"maximumHeight")
+            self.animation.setDuration(self.duration_anim_sideMenu)
+            self.animation.setStartValue(120)
+            self.animation.setEndValue(55)
+            self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+            self.animation.finished.connect(self.on_animation_finished)
+            self.animation.start()
 
     def Anim_Slide_Frame_Manner_TE(self):
         if self.animation_block:
@@ -1241,10 +1425,9 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
     def func_open(self):
         print('func_open')
-        o_t = self.out_text
+        o_t = (self.out_text)
         list_o_t = o_t.split()+['']
         conv_num = self.conv_name_sites
-        self.conv_name_prog
         print(conv_num)
         conv_num1 = {'ютуб':'https://www.youtube.com/','вконтакте':'https://vk.com/','кинопоиск':'https://www.kinopoisk.ru',
                     'яндексмаркет':'https://market.yandex.ru/','ютюб':'https://www.youtube.com/'}
@@ -1252,13 +1435,13 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         conv_num_temp = {'ютуб':"opened_youtube",'проводник':'opened_explorer'}
         site=''
         try:
-            i = list_o_t.index('открой') + 1
+            i = list_o_t.index('открыть') + 1
             word = list_o_t[i]+list_o_t[i+1]
             print(word)
             if word in conv_num:
                 site = conv_num[word]
                 self.temp= conv_num_temp[word]
-                if "ютуб" == word or "ютюб"  == word:
+                if "ютуб" == word:
                     self.y_t_temp = None
                     self.number_range = 4
                 self.voice_massage_ask(('открытие сайта', site))
@@ -1289,7 +1472,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def func_browser_use(self):  # открытие Браузера
         print('func_browser_use - октрытие браузера')
         o_t = self.out_text
-        data = ['включи','открой']
+        data = ['включи','открыть']
         try:
             browser = self.temp_browser_set
             for data_low in data:
@@ -1303,7 +1486,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 self.voice_massage_ask('открытие браузера по-умолчанию из системы Виндовс, выбранный пользователем')
                 self.default_browser_state = 1
             return
-        if 'закрой' in o_t:
+        if 'закрыть' in o_t:
 
             os.system(f"taskkill /im {browser} /f")
             self.voice_massage_ask('закрываю')
@@ -1311,7 +1494,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def func_browser_search(self):
         o_t = self.out_text
         text = o_t
-        text = text[text.find('напиши') + 7:].split()
+        text = text[text.find('написать') + 7:].split()
         if len(text) != 0:
             text = ' '.join(text)
         if self.temp == 'opened_youtube' and self.y_t_temp != 'searching':
@@ -1335,9 +1518,9 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def func_browser_tab(self):
         print('вкладка')
         o_t = self.out_text
-        if 'удали' in o_t or 'закрой' in o_t:
+        if 'удалить' in o_t or 'закрыть' in o_t:
             keyboard.press_and_release('Ctrl + w')
-        elif "открой" in o_t:
+        elif "открыть" in o_t:
             self.voice_massage_ask("открытие вкладки")
             webbrowser.open('https://ya.ru')
 
@@ -1472,23 +1655,25 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
     def conv_text_to_func(self):  # Конвертирование запросов в функцию
         global temp_vol
         print('конвертация в команду')
-        t_imp = self.out_text
-        t_imp_list = t_imp.split()
+        t_imp_list = self.out_text.split()
+        print(t_imp_list)
+        t_imp = ' '.join(t_imp_list)
+        print("final -", t_imp)
 
         actions = {
             'поиск': self.func_search if self.temp != 'opened_youtube' else self.func_browser_use,
             'верх': lambda: self._navigate('Up', -1) if self.temp == 'opened_explorer' else None,
             'вниз': lambda: self._navigate('Down', 1) if self.temp == 'opened_explorer' else None,
             'браузер': self.func_browser_use,
-            'вкладк': self.func_browser_tab,
+            'вкладка': self.func_browser_tab,
             'введи': self.func_browser_search,
-            'напиши': self.func_browser_search,
-            'громкост': self.set_volume,
-            'закрой': self._close_window,
+            'написать': self.func_browser_search,
+            'громкость': self.set_volume,
+            'закрыть программу': self._close_window,
             'зайди': self.explorer_act if self.temp == 'opened_explorer' else None,
             'назад': lambda: keyboard.press_and_release('Alt + Left') if self.temp == 'opened_explorer' else None,
             'вперёд': lambda: keyboard.press_and_release('Alt + Right') if self.temp == 'opened_explorer' else None,
-            'открой': self.func_open,
+            'открыть': self.func_open,
             'пропуск': lambda: keyboard.press_and_release('Tab'),
             'на': self.set_volume if self.temp == 'sound_update' else None,
             'выключи звук': lambda: pyautogui.press('volumedown', presses=int(50))
@@ -1513,7 +1698,10 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         elif self.temp == 'opened_explorer':
             keyboard.press_and_release('Alt + F4')
         else:
-            keyboard.press_and_release('Alt + F4')
+            keyboard.press_and_release('Ctrl + F2')
+            print(121234123)
+            time.sleep(5)
+            keyboard.press_and_release('Enter')
 
     def input_Massage(self):
         self.out_text = self.lineEdit_2.text()
@@ -1591,4 +1779,5 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     root = Window()
     root.show()
+    telegram_bot = TelegramBot(root)
     sys.exit(app.exec_())
