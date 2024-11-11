@@ -1017,277 +1017,136 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
         index = random.randint(0, len(synonyms) - 1)
         self.voice_massage_ask(get_random_message())
 
-    def side_Tg_bot_consol(self):
+    def animations_slide(self,Properties,Object,Start_Value,End_Value):
         if self.animation_block:
             return
         self.animation_block = True
+
+        self.animation = QtCore.QPropertyAnimation(Properties, Object)
+        self.animation.setDuration(self.duration_anim_sideMenu)
+        self.animation.setStartValue(Start_Value)
+        self.animation.setEndValue(End_Value)
+        self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+        self.animation.finished.connect(self.on_animation_finished)
+        self.animation.start()
+
+    def animations_slide_1(self, Properties, Object, Start_Value, End_Value):
+        if not self.anim_availability:
+            if self.animation_block:
+                return
+            self.animation_block = True
+
+        self.animation_1 = QtCore.QPropertyAnimation(Properties, Object)
+        self.animation_1.setDuration(self.duration_anim_sideMenu)
+        self.animation_1.setStartValue(Start_Value)
+        self.animation_1.setEndValue(End_Value)
+        self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
+        self.animation_1.finished.connect(self.on_animation_finished)
+        self.animation_1.start()
+        self.anim_availability = False
+
+    def side_Tg_bot_consol(self):
         if self.TgB_Manner == 0: #открытие окна
             self.TgB_Manner = 1
             self.side_Tg_bot_Button.setText(">")
-            self.animation10 = QtCore.QPropertyAnimation(self.Telegram_bot, b"maximumWidth")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(10)
-            self.animation10.setEndValue(360)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
-
-            self.animation = QtCore.QPropertyAnimation(self.frame_28, b"maximumHeight")
-            self.animation.setDuration(self.duration_anim_sideMenu)
-            self.animation.setStartValue(55)
-            self.animation.setEndValue(120)
-            self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation.finished.connect(self.on_animation_finished)
-            self.animation.start()
+            self.anim_availability = True
+            self.animations_slide(self.Telegram_bot, b"maximumWidth",10,360)
+            self.animations_slide_1(self.frame_28, b"maximumHeight", 55, 120)
         else:                     #закрытие окна
             self.TgB_Manner = 0
             self.side_Tg_bot_Button.setText("<")
-            self.animation10 = QtCore.QPropertyAnimation(self.Telegram_bot, b"maximumWidth")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(360)
-            self.animation10.setEndValue(10)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
+            self.anim_availability = True
+            self.animations_slide(self.Telegram_bot, b"maximumWidth",360,10)
+            self.animations_slide_1(self.frame_28, b"maximumHeight", 120, 55)
 
-            self.animation = QtCore.QPropertyAnimation(self.frame_28, b"maximumHeight")
-            self.animation.setDuration(self.duration_anim_sideMenu)
-            self.animation.setStartValue(120)
-            self.animation.setEndValue(55)
-            self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation.finished.connect(self.on_animation_finished)
-            self.animation.start()
 
     def Anim_Slide_Frame_Manner_TE(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
         if self.ASF_Manner_TE == 0: #открытие окна
             self.ASF_Manner_TE = 1
             self.Manner_Sett_TE_Button.setText(" < ")
-            self.animation10 = QtCore.QPropertyAnimation(self.Manner_Sett_TE, b"minimumHeight")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(0)
-            self.animation10.setEndValue(170)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
+            self.animations_slide(self.Manner_Sett_TE, b"minimumHeight", 0, 170)
         else:                     #закрытие окна
             self.ASF_Manner_TE = 0
             self.Manner_Sett_TE_Button.setText(". . .")
-            self.animation10 = QtCore.QPropertyAnimation(self.Manner_Sett_TE, b"minimumHeight")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(170)
-            self.animation10.setEndValue(0)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
+            self.animations_slide(self.Manner_Sett_TE,b"minimumHeight",170,0)
 
 
     def Anim_Slide_Frame_History_TE(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
         if self.ASF_History_TE == 0: #открытие окна
             self.ASF_History_TE = 1
             self.History_Sett_TE_Button.setText(" < ")
-            self.animation10 = QtCore.QPropertyAnimation(self.History_Sett_TE, b"minimumHeight")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(0)
-            self.animation10.setEndValue(170)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
+            self.animations_slide(self.History_Sett_TE, b"minimumHeight", 0, 170)
         else:                     #закрытие окна
             self.ASF_History_TE = 0
             self.History_Sett_TE_Button.setText(". . .")
-            self.animation10 = QtCore.QPropertyAnimation(self.History_Sett_TE, b"minimumHeight")
-            self.animation10.setDuration(self.duration_anim_sideMenu)
-            self.animation10.setStartValue(170)
-            self.animation10.setEndValue(0)
-            self.animation10.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation10.finished.connect(self.on_animation_finished)
-            self.animation10.start()
+            self.animations_slide(self.History_Sett_TE, b"minimumHeight", 170, 0)
 
     def Anim_Slide_Frame_Pers_TE(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
         if self.ASF_Pers_TE == 0: #открытие окна
             self.ASF_Pers_TE = 1
             self.Personality_Sett_TE_Button.setText(" < ")
-            self.animation9 = QtCore.QPropertyAnimation(self.Personality_Sett_TE, b"minimumHeight")
-            self.animation9.setDuration(self.duration_anim_sideMenu)
-            self.animation9.setStartValue(0)
-            self.animation9.setEndValue(170)
-            self.animation9.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation9.finished.connect(self.on_animation_finished)
-            self.animation9.start()
+            self.animations_slide(self.Personality_Sett_TE, b"minimumHeight", 0, 170)
         else:                     #закрытие окна
             self.ASF_Pers_TE = 0
             self.Personality_Sett_TE_Button.setText(". . .")
-            self.animation9 = QtCore.QPropertyAnimation(self.Personality_Sett_TE, b"minimumHeight")
-            self.animation9.setDuration(self.duration_anim_sideMenu)
-            self.animation9.setStartValue(170)
-            self.animation9.setEndValue(0)
-            self.animation9.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation9.finished.connect(self.on_animation_finished)
-            self.animation9.start()
+            self.animations_slide(self.Personality_Sett_TE, b"minimumHeight", 170, 0)
 
     def Slide_Frame_Func_edit(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
 
         if self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 1 and self.Side_Menu_Num_FE ==0:
             self.Side_Menu_Num_Consol =0
             self.Side_Menu_Num_FE = 1
+            self.anim_availability = True
+            self.animations_slide(self.Consol,b"maximumWidth",self.frame_6_max_width,0)
+            self.animations_slide_1(self.function_edit,b"maximumWidth",0,self.frame_6_max_width)
 
-            self.animation_1 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
-            self.animation_1.setDuration(self.duration_anim_sideMenu)
-            self.animation_1.setStartValue(self.frame_6_max_width)
-            self.animation_1.setEndValue(0)
-            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_1.finished.connect(self.on_animation_finished)
-            self.animation_1.start()
-
-            self.animation_3 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
-            self.animation_3.setDuration(self.duration_anim_sideMenu)
-            self.animation_3.setStartValue(0)
-            self.animation_3.setEndValue(self.frame_6_max_width)
-            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_3.finished.connect(self.on_animation_finished)
-            self.animation_3.start()
         elif self.Side_Menu_Num == 1 and self.Side_Menu_Num_Consol == 0 and self.Side_Menu_Num_FE ==0:
             self.Side_Menu_Num = 0
             self.Side_Menu_Num_FE = 1
-
-            self.animation_1 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
-            self.animation_1.setDuration(self.duration_anim_sideMenu)
-            self.animation_1.setStartValue(self.frame_6_max_width)
-            self.animation_1.setEndValue(0)
-            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_1.finished.connect(self.on_animation_finished)
-            self.animation_1.start()
-
-            self.animation_3 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
-            self.animation_3.setDuration(self.duration_anim_sideMenu)
-            self.animation_3.setStartValue(0)
-            self.animation_3.setEndValue(self.frame_6_max_width)
-            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_3.finished.connect(self.on_animation_finished)
-            self.animation_3.start()
+            self.anim_availability = True
+            self.animations_slide(self.frame_4,b"maximumWidth",self.frame_6_max_width,0)
+            self.animations_slide_1(self.function_edit,b"maximumWidth",0,self.frame_6_max_width)
 
         elif self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 0 and self.Side_Menu_Num_FE == 1:
             self.Side_Menu_Num_Consol = 1
             self.Side_Menu_Num_FE = 0
+            self.anim_availability = True
+            self.animations_slide(self.function_edit,b"maximumWidth",self.frame_6_max_width,0)
+            self.animations_slide_1(self.Consol,b"maximumWidth",0,self.frame_6_max_width)
 
-            self.animation_1 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
-            self.animation_1.setDuration(self.duration_anim_sideMenu)
-            self.animation_1.setStartValue(self.frame_6_max_width)
-            self.animation_1.setEndValue(0)
-            self.animation_1.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_1.finished.connect(self.on_animation_finished)
-            self.animation_1.start()
-
-            self.animation_3 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
-            self.animation_3.setDuration(self.duration_anim_sideMenu)
-            self.animation_3.setStartValue(0)
-            self.animation_3.setEndValue(self.frame_6_max_width)
-            self.animation_3.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation_3.finished.connect(self.on_animation_finished)
-            self.animation_3.start()
 
     def Slide_Frame_Options(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
 
         if self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol == 1 and self.Side_Menu_Num_FE == 0:
             self.Side_Menu_Num = 1
             self.Side_Menu_Num_Consol =0
-
-            self.animation22 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
-            self.animation22.setDuration(self.duration_anim_sideMenu)
-            self.animation22.setStartValue(self.frame_6_max_width)
-            self.animation22.setEndValue(0)
-            self.animation22.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation22.finished.connect(self.on_animation_finished)
-            self.animation22.start()
-
-            self.animation42 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
-            self.animation42.setDuration(self.duration_anim_sideMenu)
-            self.animation42.setStartValue(0)
-            self.animation42.setEndValue(self.frame_6_max_width)
-            self.animation42.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation42.finished.connect(self.on_animation_finished)
-            self.animation42.start()
+            self.anim_availability = True
+            self.animations_slide(self.Consol, b"maximumWidth", self.frame_6_max_width, 0)
+            self.animations_slide_1(self.frame_4, b"maximumWidth", 0, self.frame_6_max_width)
 
             self.Set_Default_Settings()
+
         elif self.Side_Menu_Num == 0 and self.Side_Menu_Num_Consol ==0 and self.Side_Menu_Num_FE ==1:
             self.Side_Menu_Num = 1
             self.Side_Menu_Num_FE = 0
+            self.anim_availability = True
+            self.animations_slide(self.function_edit, b"maximumWidth", self.frame_6_max_width, 0)
+            self.animations_slide_1(self.frame_4, b"maximumWidth", 0, self.frame_6_max_width)
 
-            self.animation2 = QtCore.QPropertyAnimation(self.function_edit, b"maximumWidth")
-            self.animation2.setDuration(self.duration_anim_sideMenu)
-            self.animation2.setStartValue(self.frame_6_max_width)
-            self.animation2.setEndValue(0)
-            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation2.finished.connect(self.on_animation_finished)
-            self.animation2.start()
-
-            self.animation41 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
-            self.animation41.setDuration(self.duration_anim_sideMenu)
-            self.animation41.setStartValue(0)
-            self.animation41.setEndValue(self.frame_6_max_width)
-            self.animation41.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation41.finished.connect(self.on_animation_finished)
-            self.animation41.start()
         elif self.Side_Menu_Num == 1 and self.Side_Menu_Num_Consol ==0 and self.Side_Menu_Num_FE ==0:
             self.Side_Menu_Num = 0
             self.Side_Menu_Num_Consol = 1
-
-            self.animation2 = QtCore.QPropertyAnimation(self.frame_4, b"maximumWidth")
-            self.animation2.setDuration(self.duration_anim_sideMenu)
-            self.animation2.setStartValue(self.frame_6_max_width)
-            self.animation2.setEndValue(0)
-            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation2.finished.connect(self.on_animation_finished)
-            self.animation2.start()
-
-            self.animation41 = QtCore.QPropertyAnimation(self.Consol, b"maximumWidth")
-            self.animation41.setDuration(self.duration_anim_sideMenu)
-            self.animation41.setStartValue(0)
-            self.animation41.setEndValue(self.frame_6_max_width)
-            self.animation41.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation41.finished.connect(self.on_animation_finished)
-            self.animation41.start()
-
+            self.anim_availability = True
+            self.animations_slide(self.frame_4, b"maximumWidth", self.frame_6_max_width, 0)
+            self.animations_slide_1(self.Consol, b"maximumWidth", 0, self.frame_6_max_width)
 
     def Slide_Frame_Main(self):
-        if self.animation_block:
-            return
-        self.animation_block = True
 
         if self.Side_Menu_Num_2 == 0:
-            self.animation2 = QtCore.QPropertyAnimation(self.Menu, b"minimumWidth")
-            self.animation2.setDuration(self.duration_anim_sideMenu)
-            self.animation2.setStartValue(80)
-            self.animation2.setEndValue(160)
-            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation2.finished.connect(self.on_animation_finished)
-            self.animation2.start()
-
+            self.animations_slide(self.Menu, b"maximumWidth", 80, 160)
             self.Side_Menu_Num_2 = 1
         else:
-            self.animation2 = QtCore.QPropertyAnimation(self.Menu, b"minimumWidth")
-            self.animation2.setDuration(self.duration_anim_sideMenu)
-            self.animation2.setStartValue(160)
-            self.animation2.setEndValue(80)
-            self.animation2.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
-            self.animation2.finished.connect(self.on_animation_finished)
-            self.animation2.start()
-
+            self.animations_slide(self.Menu, b"maximumWidth", 160, 80)
             self.Side_Menu_Num_2 = 0
 
     def on_animation_finished(self):
@@ -1699,8 +1558,8 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
             keyboard.press_and_release('Alt + F4')
         else:
             keyboard.press_and_release('Ctrl + F2')
-            print(121234123)
-            time.sleep(5)
+            print("Close Program")
+            time.sleep(1)
             keyboard.press_and_release('Enter')
 
     def input_Massage(self):
