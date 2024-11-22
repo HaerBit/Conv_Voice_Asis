@@ -5,7 +5,8 @@ import subprocess
 import threading
 import time
 from time import sleep
-
+from flask import Flask, request
+import requests
 import telebot
 import webbrowser
 import pyautogui
@@ -24,6 +25,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from PyQt5.QtWidgets import QWidget
 from sympy.codegen.cfunctions import expm1
+from test_2 import TelegramBotServer
 from vosk import Model, KaldiRecognizer
 from PyQt5 import QtWidgets, QtCore, uic,QtGui
 from PyQt5.QtWidgets import (QFileDialog)
@@ -73,6 +75,26 @@ Sub_Pos = parameter_save_file['Sub_Pos_XY']
 X_axis = parameter_save_file['Xaxis']
 Y_axis = parameter_save_file['Yaxis']
 
+def search_ngrok_server():
+    print(">>>search server ngrok<<<")
+    ngrok_process = subprocess.Popen([r"C:\Users\hiriimosa\Downloads\ngrok.exe",'ngrok', 'http', '5000'], stdout=subprocess.PIPE)
+    time.sleep(2)  # Даём время на инициализацию ngrok
+    public_url = None
+    try:
+        response = subprocess.check_output(['curl', 'http://localhost:4040/api/tunnels'])
+        tunnels_info = json.loads(response)
+        public_url = tunnels_info['tunnels'][0]['public_url']
+    except Exception as e:
+        print(f"Ошибка при получении публичного URL от ngrok: {e}")
+
+    if public_url:
+        print(f"ngrok URL: {public_url}")
+        return f"{public_url}/webhook"  # Возвращаем URL с /webhook
+    else:
+        print("Не удалось получить URL ngrok.")
+        return None
+
+webhook_url = search_ngrok_server()
 
 class ChatMemory:
     def __init__(self, max_messages=10):
@@ -158,98 +180,105 @@ class ThreadWindow(QThread):
         self.running = False
 
 class TelegramBot:
-    def __init__(self, window):
-        global TG_API
+    def __init__(self,tg_api_token, window):
+        self.app = Flask(__name__)
+        self.bot = telebot.TeleBot(tg_api_token)
         self.window = window
-        self.bot = telebot.TeleBot(TG_API)
-        self.allowed_users = [945985582]
+        self.allowed_users = [945985582,2107988636]
         self.fifteens_times_history_num = 0
+        self.webhook_set = False
 
-        self.start_bot()
+        self.app.add_url_rule('/webhook', 'webhook_handler', self.handle_message, methods=["POST"])
 
-    def start_bot(self):
-        thread = threading.Thread(target=self.polling)
-        thread.start()
+    def handle_message(self):
+        global Manner_Voice_CP , History_Mem_CP,Personality_CP,parameter_save_file,Chat_message_TG_bot
+        json_str =request.get_data().decode("UTF-8")
+        update  = telebot.types.Update.de_json(json_str)
+        message = update.message
+        if message.from_user.id not in self.allowed_users:
+            self.bot.send_message(message.chat.id, 'У вас нет доступа.')
+            return '', 403
+        ChatHistory = parameter_save_file["Chat_history"]
+        if ChatMemory:
+            memory = ChatMemory()
+            memory.load_messages(ChatHistory)  # Загрузка истории в память
+        else:
+            memory = ChatMemory()
+        set_history_text = False
+        user_input= message
+        if self.fifteens_times_history_num == 10:
+            self.fifteens_times_history_num =0
+            chat_history = memory.get_messages()
+            chat_string = "\n".join(f"{entry['role']}: {entry['content']}" for entry in chat_history)
+            text = (
+                'сократи информацию из всего текста (в частности у пользователя) такую что может пригодиться на долгое время, что можно вcпомнить на будущее.'
+                'и то что попросил или потребовал пользователь у ассистента. сократить все очень кратко по возможности в одного предложения. пиши словно идет обращение к ассистенту. при отсутствии важной инфорvации вывести пустоту.'
+                'нужен только текст о том какой ассистент должен быть с тем, что должен помнить и делать')
+            sys_message = f"'{chat_string}' - {text}"
+            messages_with_system = [{"role": "system", "content": sys_message}]
+            response = generate_response_history(messages_with_system)
+            print(">>>", response, "<<<")
+            messages_with_system = [{"role": "system", "content": (
+                f"'{response}' - добавь информацию из первого текста в этот '{History_Mem_CP}' адаптируя первый текст под стиль написании второго и также изменяй второй текст добавляя информацию из первого, или просто добавь из первого. пиши словно идет обращение к ассистенту. текст должен быть написано к обращению ассистенту."
+                f"должно быть все написано обезличено без упоминания пользвателя. все должно быть без противоречий в готовом тексте, если они есть то удалить или изменить в готовом тексте. выведи только в один текст без вопросительных и восклицательных знаков, соответсвенно без вопросов и восклицания. нужен текст-модель общения")}]
+            response = generate_response_history(messages_with_system)
+            print("<<<", response, ">>>")
+            History_Mem_CP = response
+            parameter_save_file['History_Mem_CP'] = History_Mem_CP
+            set_history_text =True
 
-    def polling(self):
-        @self.bot.message_handler(commands=["start"])
-        def start(m, res=False):
-            try:
-                if m.from_user.id in self.allowed_users:
-                    self.bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь.')
-                else:
-                    print(m.from_user.id)
-                    self.bot.send_message(m.chat.id, 'Я не на связи. У вас нет доступа.')
-            except Exception as f:
-                print(f)
-
-        @self.bot.message_handler(func=lambda message: True)
-        def handle_message(message):
-
-            global Manner_Voice_CP , History_Mem_CP,Personality_CP,parameter_save_file,Chat_message_TG_bot
-            if message.from_user.id not in self.allowed_users:
-                self.bot.send_message(message.chat.id, 'У вас нет доступа.')
-                return
-            ChatHistory = parameter_save_file["Chat_history"]
-            if ChatMemory:
-                memory = ChatMemory()
-                memory.load_messages(ChatHistory)  # Загрузка истории в память
-            else:
-                memory = ChatMemory()
-            set_history_text = False
-
-            if self.fifteens_times_history_num == 10:
-                self.fifteens_times_history_num =0
-                chat_history = memory.get_messages()
-                chat_string = "\n".join(f"{entry['role']}: {entry['content']}" for entry in chat_history)
-                text = (
-                    'сократи информацию из всего текста (в частности у пользователя) такую что может пригодиться на долгое время, что можно вcпомнить на будущее.'
-                    'и то что попросил или потребовал пользователь у ассистента. сократить все очень кратко по возможности в одного предложения. пиши словно идет обращение к ассистенту. при отсутствии важной инфорvации вывести пустоту.'
-                    'нужен только текст о том какой ассистент должен быть с тем, что должен помнить и делать')
-                sys_message = f"'{chat_string}' - {text}"
-                messages_with_system = [{"role": "system", "content": sys_message}]
-                response = generate_response_history(messages_with_system)
-                print(">>>", response, "<<<")
-                messages_with_system = [{"role": "system", "content": (
-                    f"'{response}' - добавь информацию из первого текста в этот '{History_Mem_CP}' адаптируя первый текст под стиль написании второго и также изменяй второй текст добавляя информацию из первого, или просто добавь из первого. пиши словно идет обращение к ассистенту. текст должен быть написано к обращению ассистенту."
-                    f"должно быть все написано обезличено без упоминания пользвателя. все должно быть без противоречий в готовом тексте, если они есть то удалить или изменить в готовом тексте. выведи только в один текст без вопросительных и восклицательных знаков, соответсвенно без вопросов и восклицания. нужен текст-модель общения")}]
-                response = generate_response_history(messages_with_system)
-                print("<<<", response, ">>>")
-                History_Mem_CP = response
-                parameter_save_file['History_Mem_CP'] = History_Mem_CP
-                set_history_text =True
-
-                self.window.user_input_signal_history.emit('1111')
+            self.window.user_input_signal_history.emit('1111')
 
 
-            self.fifteens_times_history_num +=1
-            print(self.fifteens_times_history_num)
-            parameter_save_file["Chat_history"] = memory.get_messages()
-            with open('savefile.json', 'w', encoding='utf-8') as json_file:
-                json.dump(parameter_save_file, json_file, ensure_ascii=False, indent=len(parameter_save_file))
-            print('savefile.json saved in folder for TelegramBot')
+        self.fifteens_times_history_num +=1
+        print(self.fifteens_times_history_num)
+        parameter_save_file["Chat_history"] = memory.get_messages()
+        with open('savefile.json', 'w', encoding='utf-8') as json_file:
+            json.dump(parameter_save_file, json_file, ensure_ascii=False, indent=len(parameter_save_file))
+        print('savefile.json saved in folder for TelegramBot')
 
-            system_message = History_Mem_CP + Personality_CP + Manner_Voice_CP
-            print(system_message)
+        system_message = Personality_CP+ History_Mem_CP  + Manner_Voice_CP
+        print(system_message)
+        if message.text[0]!= "&":
             user_input = message.text
             memory.add_message(role='user', content=user_input)
             messages_with_system = [{"role": "system", "content": system_message}] + memory.get_messages()
 
             response = generate_response(messages_with_system)
             Chat_message_TG_bot = f"Пользователь: {user_input}\nБот: {response}"
-            self.window.user_input_signal.emit(user_input)
             memory.add_message(role='assistant', content=response)
+        else:
+            memory.add_message(role='assistant', content=user_input)
+            messages_with_system = [{"role": "system", "content": system_message}] + memory.get_messages()
+
+            response = generate_response(messages_with_system)
+            Chat_message_TG_bot = f"Пользователь: {user_input}\nБот: {response}"
+        self.window.user_input_signal.emit(user_input)
 
 
-            try:
-                print('tg-bot class' + Chat_message_TG_bot )
-                self.bot.send_message(message.chat.id, response)
-            except Exception as e:
-                print(e)
-        self.bot.polling(none_stop=True)
 
-    def handle_text_signal(self, text):
-            None
+        try:
+            print('tg-bot class' + Chat_message_TG_bot )
+            self.bot.send_message(message.chat.id, response)
+            return '',200
+        except Exception as e:
+            print(e)
+            return '', 500
+
+    def set_webhook(self,webhook_url):
+        self.bot.set_webhook(webhook_url)
+        print(f">>Webhook установлен: {webhook_url}")
+
+    def start_server(self):
+        print(">>Start Server")
+        try:
+            thread = threading.Thread(target=self.app.run, kwargs={'host': '0.0.0.0', 'port': 5000})
+            thread.daemon = True
+            thread.start()
+        except OSError as e:
+            print(f"Ошибка при запуске Flask: {e}")
+
+
 class Window(QtWidgets.QMainWindow, Ui_Form):
     text_signal = QtCore.pyqtSignal(str)
     user_input_signal = QtCore.pyqtSignal(str)
@@ -806,6 +835,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
                 self.history_edit_check = 0
             print(response)
             self.Send_Message_Sub(response)
+            self.user_input_signal_3.emit("&"+response)
             if self.check_activate_sint_voice:
                 self.voice_massage_ask(response)
         except Exception as error:
@@ -818,6 +848,7 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 
         self.timer_interval_set()
         self.timer.start(self.interval)
+
 
     def voice_adoptation(self):
         self.synthesize_and_play('о')
@@ -1635,8 +1666,15 @@ class Window(QtWidgets.QMainWindow, Ui_Form):
 # Точка входа в приложение
 if __name__ == '__main__':
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     root = Window()
     root.show()
-    telegram_bot = TelegramBot(root)
+
+
+    telegram_bot = TelegramBot(TG_API,root)
+    telegram_bot.set_webhook(webhook_url)
+
+    telegram_bot.start_server()
+
     sys.exit(app.exec_())
